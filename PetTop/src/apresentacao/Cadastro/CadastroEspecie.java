@@ -5,10 +5,14 @@
  */
 package apresentacao.Cadastro;
 
+import entidade.Especie;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import persistencia.EspecieDAO;
 
 
 /**
@@ -137,60 +141,17 @@ public class CadastroEspecie extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-//        descricao = jTextFieldDescricao.getText();
-//        if (!(jTextFieldDescricao.getText().equals(""))) {
-//            if ((jLabelAcao.getText()).equals("Nova Marca")) {
-//                int resposta = JOptionPane.showConfirmDialog(rootPane, "Confirmar Cadastro?");
-//                if (resposta == JOptionPane.YES_OPTION) {
-//                    try {
-//                        GeradorDeId idMarca = new GeradorDeId();
-//                        Marca obj = new Marca();
-//
-//                        obj.setId(idMarca.getIdMarca());
-//                        obj.setDescricao(jTextFieldDescricao.getText());
-//
-//                        ClasseDAO categoria = new ClasseDAO();
-//                        categoria.incluirMarca(obj);
-//                        JOptionPane.showMessageDialog(rootPane, "Cadastro efetuado com sucesso!");
-//                        idMarca.finalize();
-//                        jTextFieldDescricao.setText("");
-//
-//                    } catch (Exception e) {
-//                    }
-//                } else if (resposta == JOptionPane.NO_OPTION) {
-//                    jTextFieldDescricao.setText(descricao);
-//                } else {
-//                    this.dispose();
-//                }
-//            } else {
-//                int resposta = JOptionPane.showConfirmDialog(rootPane, "Confirmar Alteração?");
-//                if (resposta == JOptionPane.YES_OPTION) {
-//                    try {
-//                        Marca obj = new Marca();
-//                        obj.setId(Integer.parseInt(idAlteracao));
-//                        obj.setDescricao(descricao);
-//
-//                        ClasseDAO dao = new ClasseDAO();
-//                        dao.alterarMarca(obj, idAlteracao);
-//                        JOptionPane.showMessageDialog(rootPane, "Alteração efetuada com sucesso!");
-//                                             
-//                        terminado = true;
-//                        jTextFieldDescricao.setEnabled(false);
-//                    } catch (Exception e) {
-//                    }
-//                } else if (resposta == JOptionPane.NO_OPTION) {
-//                    jTextFieldDescricao.setText(descricao);
-//                } else {
-//                    this.dispose();
-//                }
-//
-//            }
-//
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios não preenchidos!");
-//        }
+        Especie esp = new Especie();
+            EspecieDAO dao = new EspecieDAO();
+            
+            esp.setDescricao(jTextFieldDescricao.getText());
+            
+        try {
+            dao.incluir(esp);
 
-
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**

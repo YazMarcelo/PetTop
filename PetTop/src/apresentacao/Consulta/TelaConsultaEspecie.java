@@ -6,6 +6,7 @@
 package apresentacao.Consulta;
 
 import apresentacao.Cadastro.CadastroCliente;
+import entidade.Especie;
 //import classededados.Marca;
 //import interfacesgraficas.Cadastro.CadastroCliente;
 import java.awt.event.KeyAdapter;
@@ -20,6 +21,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import persistencia.ClienteDAO;
+import persistencia.EspecieDAO;
 
 /**
  *
@@ -316,25 +318,23 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void atualizar(){
-//        try {
-//            ArrayList<Cliente> listaDeClientes;
-//            ClasseDAO agenda = new ClasseDAO();
-//            listaDeClientes = agenda.recuperarCliente();
-//            model = (DefaultTableModel) jTableCliente.getModel();
-//            
-//            model.setNumRows(0);
-//            for(int pos=0; pos<listaDeClientes.size();pos++){
-//                String[] saida = new String[4];
-//                Cliente aux = listaDeClientes.get(pos);
-//                saida[0] = aux.getNome();
-//                saida[1] = aux.getCnh();
-//                saida[2] = aux.getEmail();
-//                saida[3] = (aux.getTipoTel1()+" - "+aux.getTelefone1());
-//                model.addRow(saida);
-//            }         
-//        } catch (Exception erro) {
-//            JOptionPane.showMessageDialog(this, erro.getMessage());
-//        }
+        try {
+            ArrayList<Object> listaDeEspecialidades;
+            EspecieDAO dao = new EspecieDAO();
+            listaDeEspecialidades = dao.listar();
+            model = (DefaultTableModel) jTableEspecie.getModel();
+
+            model.setNumRows(0);
+            for (int pos = 0; pos < listaDeEspecialidades.size(); pos++) {
+                String[] saida = new String[2];
+                Especie aux = (Especie) listaDeEspecialidades.get(pos);
+                saida[0] = String.valueOf(aux.getCodigo());
+                saida[1] = aux.getDescricao();
+                model.addRow(saida);
+            }       
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(this, erro.getMessage());
+        }
     }
     public void atualizaAposFechar(){
     tcc.addWindowListener(new WindowAdapter() {
