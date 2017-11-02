@@ -72,12 +72,12 @@ public class EspecieDAO implements CRUD{
     }
 
     @Override
-    public void alterar(Object objeto, String id) throws Exception {
+    public void alterar(Object objeto) throws Exception {
         
         Especie objEspe =  (Especie) (objeto);
         
         //Cria a instrução SQL para a inserção no banco
-        String sql = "update especie set espe_descricao = ?;";
+        String sql = "update especie set espe_descricao = ? where espe_id = ?;";
 
         Connection cnn = util.Conexao.getConexao();
 
@@ -87,6 +87,7 @@ public class EspecieDAO implements CRUD{
 
         //Seta os valores para o procedimento
         prd.setString(1, objEspe.getDescricao());
+        prd.setInt(2, objEspe.getCodigo());
 
         prd.execute();
 
@@ -118,6 +119,36 @@ public class EspecieDAO implements CRUD{
         cnn.close();
 
         return listaEspecie;
+    }
+
+    @Override
+    public Object consultar(String id) throws Exception {
+        String sql = "select * from especie where espe_id = ?;";
+
+        Connection cnn = util.Conexao.getConexao();
+
+        //Cria o procedimento armazenado a partir da conexão
+        //e string sql
+        PreparedStatement prd = cnn.prepareStatement(sql);
+
+        //Seta os valores para o procedimento
+        prd.setInt(1, Integer.parseInt(id));
+
+        ResultSet rs = prd.executeQuery();
+
+        Especie objeto = new Especie();
+
+        if (rs.next()) {
+            objeto.setCodigo(rs.getInt("espe_id"));
+            objeto.setDescricao(rs.getString("espe_descricao"));
+        }
+
+        prd.execute();
+
+        prd.close();
+        cnn.close();
+
+        return objeto;
     }
     
 }

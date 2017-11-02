@@ -17,23 +17,28 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import negocio.NEspecie;
 import persistencia.ClienteDAO;
 import persistencia.EspecieDAO;
+import util.Mensagem;
 
 /**
  *
  * @author aluno
  */
 public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
+
     DefaultTableModel model = null;
     TableRowSorter trs;
     int esc;
     CadastroEspecie tce;
-    
+    Mensagem msg = new Mensagem();
+
     /**
      * Creates new form TelaConsultaVeículo
      */
@@ -74,12 +79,12 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Consulta de Especie");
+        jLabel1.setText("Consulta de Espécie");
 
         jButton1.setBackground(new java.awt.Color(0, 136, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("+ Novo Especie");
+        jButton1.setText("+ Novo Espécie");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -241,39 +246,48 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    atualizar();
+        atualizar();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (jTableEspecie.getSelectedRow() >= 0){
-            int resposta  = JOptionPane.showConfirmDialog(rootPane, "Excluir Cliente?");
-            if(resposta == JOptionPane.YES_OPTION){
-        try {
-            
-            String id = (String)jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0);
-            EspecieDAO dao = new EspecieDAO();
-            dao.excluir(id);
-            model.removeRow(jTableEspecie.getSelectedRow());
-            jTableEspecie.setModel(model);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        if (jTableEspecie.getSelectedRow() >= 0) {
+            int resposta = msg.msg03();
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+
+                    String id = (String) jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0);
+
+                    NEspecie neg = new NEspecie();
+                    neg.excluir(id);
+
+                    model.removeRow(jTableEspecie.getSelectedRow());
+                    jTableEspecie.setModel(model);
+
+                    msg.msg05();
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma linha!");
-        } 
+        } else {
+            msg.msg12();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        try {
-//        tcc= new CadastroCliente();
-//            tcc.alteracao("Alterar Cliente",(String)jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1));
-//            tcc.setVisible(true);
-//        } catch (Exception ex) {
-//            Logger.getLogger(TelaConsultaMarca.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-                    atualizaAposFechar();
+        if (jTableEspecie.getSelectedRow() >= 0) {
+            try {
+                tce = new CadastroEspecie();
+                tce.atualizarAposSalvar(this);
+                tce.alteracao("Alterar Especie", (String) jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0));
+                tce.setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            msg.msg12();
+        }
+        atualizaAposFechar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextFieldPesquisar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1MouseClicked
@@ -290,15 +304,17 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Descrição")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 1; 
-        else
+        if (jComboBox1.getSelectedItem().equals("Descrição") || jComboBox1.getSelectedItem().equals("Selecione...")) {
+            esc = 1;
+        } else {
             esc = 0;
-        
+        }
+
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)"+jTextFieldPesquisar1.getText(),esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
@@ -321,7 +337,7 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldPesquisar1;
     // End of variables declaration//GEN-END:variables
 
-    public void atualizar(){
+    public void atualizar() {
         try {
             ArrayList<Object> listaDeEspecialidades;
             EspecieDAO dao = new EspecieDAO();
@@ -335,17 +351,19 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
                 saida[0] = String.valueOf(aux.getCodigo());
                 saida[1] = aux.getDescricao();
                 model.addRow(saida);
-            }       
+            }
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(this, erro.getMessage());
         }
     }
-    public void atualizaAposFechar(){
-    tce.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            atualizar();
-        }
-    });  
-}
+
+    public void atualizaAposFechar() {
+        tce.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                atualizar();
+            }
+        });
+    }
+    
 
 }

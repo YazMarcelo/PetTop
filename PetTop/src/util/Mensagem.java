@@ -25,7 +25,7 @@ public class Mensagem {
         JOptionPane.showMessageDialog(null, "Cadastro Efetuado com Sucesso!", "Mensagem do Sistema", 1);
     }
     public int msg02(){
-        return JOptionPane.showConfirmDialog(null, "Confirmar Alterações?", "Mensagem do Sistema", 0, 3);
+        return JOptionPane.showConfirmDialog(null, "Confirmar Alteração?", "Mensagem do Sistema", 0, 3);
     }
     public int msg03(){
         return JOptionPane.showConfirmDialog(null, "Confirmar Exclusão?", "Mensagem do Sistema", 0, 3);
@@ -52,6 +52,9 @@ public class Mensagem {
         JOptionPane.showMessageDialog(null, "CPF Inválido!", "Mensagem do Sistema", 0);
     }
     public void msg11(){
-        JOptionPane.showMessageDialog(null, "Informe os dados Obrigatório!", "Mensagem do Sistema", 0);
+        JOptionPane.showMessageDialog(null, "Informe os dados Obrigatórios!", "Mensagem do Sistema", 1);
+    }
+    public void msg12(){
+        JOptionPane.showMessageDialog(null, "Selecione um Registro!", "Mensagem do Sistema", 1);
     }
 }

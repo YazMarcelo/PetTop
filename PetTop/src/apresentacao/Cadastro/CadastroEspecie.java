@@ -5,15 +5,18 @@
  */
 package apresentacao.Cadastro;
 
+import apresentacao.Consulta.TelaConsultaEspecie;
 import entidade.Especie;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import negocio.NEspecie;
 import persistencia.EspecieDAO;
-
+import util.Mensagem;
 
 /**
  *
@@ -21,16 +24,17 @@ import persistencia.EspecieDAO;
  */
 public class CadastroEspecie extends javax.swing.JFrame {
 
-    String idAlteracao;
+    int idAlteracao = 0;
     String descricao;
     private boolean terminado;
+    TelaConsultaEspecie aux;
 
     /**
      * Creates new form CadastroMarca
      */
     public CadastroEspecie() {
         initComponents();
-
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -57,7 +61,7 @@ public class CadastroEspecie extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabelAcao.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelAcao.setText("Nova Especie");
+        jLabelAcao.setText("Nova Espécie");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -141,13 +145,22 @@ public class CadastroEspecie extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        Especie esp = new Especie();
-            EspecieDAO dao = new EspecieDAO();
-            
-            esp.setDescricao(jTextFieldDescricao.getText());
-            
         try {
-            dao.incluir(esp);
+
+            Especie esp = new Especie();
+            NEspecie neg = new NEspecie();
+
+            esp.setCodigo(idAlteracao);
+            esp.setDescricao(jTextFieldDescricao.getText());
+
+                neg.salvar(esp);
+
+                if (idAlteracao > 0) {
+                    aux.atualizar();
+                    this.dispose();
+                } else {
+                    limparCampos();
+                }
 
         } catch (Exception ex) {
             Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,44 +212,22 @@ public class CadastroEspecie extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextFieldDescricao;
     // End of variables declaration//GEN-END:variables
-    public void alteracao(String acao, String id, String descricao) throws Exception {
-//        jLabelAcao.setText(acao);
-//        ArrayList<Marca> listaDeMarcas;
-//        ClasseDAO agenda = new ClasseDAO();
-//        listaDeMarcas = agenda.recuperarMarca();
-//        for (int pos = 0; pos < listaDeMarcas.size(); pos++) {
-//            Marca aux = listaDeMarcas.get(pos);
-//
-//            if (id.equals(String.valueOf(aux.getId()))) {
-//                this.idAlteracao = String.valueOf(aux.getId());
-//                jTextFieldDescricao.setText(aux.getDescricao());
-//            }
-//        }
 
+    public void atualizarAposSalvar(TelaConsultaEspecie aux) {
+        this.aux = aux;
     }
 
-    public boolean isTerminado() {
-        return terminado;
+    public void alteracao(String acao, String id) throws Exception {
+        EspecieDAO dao = new EspecieDAO();
+        Especie objEspe = (Especie) dao.consultar(id);
+
+        jLabelAcao.setText(acao);
+        this.idAlteracao = objEspe.getCodigo();
+        jTextFieldDescricao.setText(objEspe.getDescricao());
     }
 
-//    public void atualizarJTable() {
-//        try {
-//            ArrayList<Marca> listaDeMarcas;
-//            ClasseDAO agenda = new ClasseDAO();
-//            listaDeMarcas = agenda.recuperarMarca();
-//            new TelaConsultaMarca().model = (DefaultTableModel) new TelaConsultaMarca().jTableMarca.getModel();
-//
-//            new TelaConsultaMarca().model.setNumRows(0);
-//            for (int pos = 0; pos < listaDeMarcas.size(); pos++) {
-//                String[] saida = new String[2];
-//                Marca aux = listaDeMarcas.get(pos);
-//                saida[0] = String.valueOf(aux.getId());
-//                saida[1] = aux.getDescricao();
-//                new TelaConsultaMarca().model.addRow(saida);
-//            }
-//        } catch (Exception erro) {
-//            JOptionPane.showMessageDialog(this, erro.getMessage());
-//        }
-//    }
+    public void limparCampos() {
+        jTextFieldDescricao.setText("");
+    }
 
 }
