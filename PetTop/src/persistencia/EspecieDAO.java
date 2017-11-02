@@ -54,12 +54,44 @@ public class EspecieDAO implements CRUD{
 
     @Override
     public void excluir(String id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Cria a instrução SQL para a inserção no banco
+        String sql = "delete from especie where espe_id = ?;";
+
+        Connection cnn = util.Conexao.getConexao();
+
+        //Cria o procedimento armazenado a partir da conexão
+        //e string sql
+        PreparedStatement prd = cnn.prepareStatement(sql);
+
+        prd.setInt(1, Integer.parseInt(id));
+
+        prd.execute();
+
+        prd.close();
+        cnn.close();
     }
 
     @Override
     public void alterar(Object objeto, String id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Especie objEspe =  (Especie) (objeto);
+        
+        //Cria a instrução SQL para a inserção no banco
+        String sql = "update especie set espe_descricao = ?;";
+
+        Connection cnn = util.Conexao.getConexao();
+
+        //Cria o procedimento armazenado a partir da conexão
+        //e string sql
+        PreparedStatement prd = cnn.prepareStatement(sql);
+
+        //Seta os valores para o procedimento
+        prd.setString(1, objEspe.getDescricao());
+
+        prd.execute();
+
+        prd.close();
+        cnn.close(); 
     }
 
     @Override

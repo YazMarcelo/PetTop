@@ -12,6 +12,7 @@ package apresentacao;
 //import interfacesgraficas.Consulta.TelaConsultaMarca;
 //import interfacesgraficas.Consulta.TelaConsultaModelo;
 //import interfacesgraficas.Consulta.TelaConsultaVeiculo;
+import apresentacao.Consulta.TelaConsultaEspecie;
 import java.awt.Color;
 import static javax.swing.GroupLayout.Alignment.CENTER;
 import javax.swing.JOptionPane;
@@ -22,7 +23,7 @@ import javax.swing.JPanel;
  * @author Pedro
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-//    TelaConsultaMarca telaMarca = new TelaConsultaMarca();
+    TelaConsultaEspecie tce = new TelaConsultaEspecie();
 //    TelaConsultaVeiculo telaVeiculo = new TelaConsultaVeiculo();
 //    TelaConsultaModelo telaModelo = new TelaConsultaModelo();
 //    TelaConsultaCliente telaCliente = new TelaConsultaCliente();
@@ -158,7 +159,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButtonCliente1.setBackground(new java.awt.Color(51, 51, 51));
         jButtonCliente1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButtonCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCliente1.setText("Produtos");
+        jButtonCliente1.setText("Especie");
         jButtonCliente1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCliente1ActionPerformed(evt);
@@ -251,9 +252,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addGap(401, 401, 401)
                         .addComponent(jLabelBemVindo)
                         .addContainerGap(374, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,7 +327,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDevolver1ActionPerformed
 
     private void jButtonCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCliente1ActionPerformed
-        // TODO add your handling code here:
+        tce.setLocation(182, 36);
+        this.add(tce);
+        tce.show();
+        jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonCliente1ActionPerformed
 
     /**

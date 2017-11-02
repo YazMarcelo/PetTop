@@ -6,6 +6,7 @@
 package apresentacao.Consulta;
 
 import apresentacao.Cadastro.CadastroCliente;
+import apresentacao.Cadastro.CadastroEspecie;
 import entidade.Especie;
 //import classededados.Marca;
 //import interfacesgraficas.Cadastro.CadastroCliente;
@@ -31,7 +32,7 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     DefaultTableModel model = null;
     TableRowSorter trs;
     int esc;
-    CadastroCliente tcc;
+    CadastroEspecie tce;
     
     /**
      * Creates new form TelaConsultaVeículo
@@ -73,12 +74,12 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Consulta de Clientes");
+        jLabel1.setText("Consulta de Especie");
 
         jButton1.setBackground(new java.awt.Color(0, 136, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("+ Novo Cliente");
+        jButton1.setText("+ Novo Especie");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -94,7 +95,7 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(932, Short.MAX_VALUE))
+                .addContainerGap(935, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +117,9 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableEspecie);
         if (jTableEspecie.getColumnModel().getColumnCount() > 0) {
-            jTableEspecie.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTableEspecie.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTableEspecie.getColumnModel().getColumn(1).setResizable(false);
+            jTableEspecie.getColumnModel().getColumn(1).setPreferredWidth(500);
         }
 
         jButton2.setBackground(new java.awt.Color(0, 136, 204));
@@ -172,7 +175,7 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtro");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Nome", "CNH", "Email" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "Descrição" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -232,8 +235,8 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        tcc = new CadastroCliente();
-        tcc.setVisible(true);
+        tce = new CadastroEspecie();
+        tce.setVisible(true);
         atualizaAposFechar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -247,9 +250,9 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
             if(resposta == JOptionPane.YES_OPTION){
         try {
             
-            String cnh = (String)jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 1);
-            ClienteDAO dao = new ClienteDAO();
-//            dao.excluirCliente(cnh);
+            String id = (String)jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0);
+            EspecieDAO dao = new EspecieDAO();
+            dao.excluir(id);
             model.removeRow(jTableEspecie.getSelectedRow());
             jTableEspecie.setModel(model);
         
@@ -287,9 +290,10 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Nome")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 0; 
-        if(jComboBox1.getSelectedItem().equals("CNH")) esc = 1; 
-        if(jComboBox1.getSelectedItem().equals("Email")) esc = 2; 
+        if(jComboBox1.getSelectedItem().equals("Descrição")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 1; 
+        else
+            esc = 0;
+        
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -337,7 +341,7 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
         }
     }
     public void atualizaAposFechar(){
-    tcc.addWindowListener(new WindowAdapter() {
+    tce.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
             atualizar();
         }
