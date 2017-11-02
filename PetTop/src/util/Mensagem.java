@@ -51,4 +51,7 @@ public class Mensagem {
     public void msg10(){
         JOptionPane.showMessageDialog(null, "CPF Inválido!", "Mensagem do Sistema", 0);
     }
+    public void msg11(){
+        JOptionPane.showMessageDialog(null, "Informe os dados Obrigatório!", "Mensagem do Sistema", 0);
+    }
 }
