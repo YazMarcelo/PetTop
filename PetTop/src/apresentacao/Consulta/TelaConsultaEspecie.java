@@ -31,7 +31,7 @@ import util.Mensagem;
  *
  * @author aluno
  */
-public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
+public class TelaConsultaEspecie extends javax.swing.JInternalFrame{
 
     DefaultTableModel model = null;
     TableRowSorter trs;
@@ -340,8 +340,8 @@ public class TelaConsultaEspecie extends javax.swing.JInternalFrame {
     public void atualizar() {
         try {
             ArrayList<Object> listaDeEspecialidades;
-            EspecieDAO dao = new EspecieDAO();
-            listaDeEspecialidades = dao.listar();
+            NEspecie neg = new NEspecie();
+            listaDeEspecialidades = neg.listar();
             model = (DefaultTableModel) jTableEspecie.getModel();
 
             model.setNumRows(0);

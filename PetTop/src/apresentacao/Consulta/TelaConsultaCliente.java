@@ -6,6 +6,8 @@
 package apresentacao.Consulta;
 
 import apresentacao.Cadastro.CadastroCliente;
+import apresentacao.Cadastro.CadastroEspecie;
+import entidade.Cliente;
 //import classededados.Marca;
 //import interfacesgraficas.Cadastro.CadastroCliente;
 import java.awt.event.KeyAdapter;
@@ -19,7 +21,9 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import negocio.NCliente;
 import persistencia.ClienteDAO;
+import util.Mensagem;
 
 /**
  *
@@ -30,6 +34,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     TableRowSorter trs;
     int esc;
     CadastroCliente tcc;
+    Mensagem msg = new Mensagem();
     
     /**
      * Creates new form TelaConsultaVeículo
@@ -109,11 +114,11 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nome", "CNH", "Email", "Telefone"
+                "Código", "Nome", "CPF", "Telefone", "Data de Nascimento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -123,9 +128,15 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTableCliente);
         if (jTableCliente.getColumnModel().getColumnCount() > 0) {
             jTableCliente.getColumnModel().getColumn(0).setResizable(false);
+            jTableCliente.getColumnModel().getColumn(0).setPreferredWidth(5);
             jTableCliente.getColumnModel().getColumn(1).setResizable(false);
+            jTableCliente.getColumnModel().getColumn(1).setPreferredWidth(200);
             jTableCliente.getColumnModel().getColumn(2).setResizable(false);
+            jTableCliente.getColumnModel().getColumn(2).setPreferredWidth(10);
             jTableCliente.getColumnModel().getColumn(3).setResizable(false);
+            jTableCliente.getColumnModel().getColumn(3).setPreferredWidth(10);
+            jTableCliente.getColumnModel().getColumn(4).setResizable(false);
+            jTableCliente.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         jButton2.setBackground(new java.awt.Color(0, 136, 204));
@@ -211,7 +222,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -251,35 +262,44 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (jTableCliente.getSelectedRow() >= 0){
-            int resposta  = JOptionPane.showConfirmDialog(rootPane, "Excluir Cliente?");
-            if(resposta == JOptionPane.YES_OPTION){
-        try {
-            
-            String cnh = (String)jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1);
-            ClienteDAO dao = new ClienteDAO();
-//            dao.excluirCliente(cnh);
-            model.removeRow(jTableCliente.getSelectedRow());
-            jTableCliente.setModel(model);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(TelaConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (jTableCliente.getSelectedRow() >= 0) {
+            int resposta = msg.msg03();
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+
+                    String id = (String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0);
+
+                    NCliente neg = new NCliente();
+                    neg.excluir(id);
+
+                    model.removeRow(jTableCliente.getSelectedRow());
+                    jTableCliente.setModel(model);
+
+                    msg.msg05();
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma linha!");
-        } 
+        } else {
+            msg.msg12();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        try {
-//        tcc= new CadastroCliente();
-//            tcc.alteracao("Alterar Cliente",(String)jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1));
-//            tcc.setVisible(true);
-//        } catch (Exception ex) {
-//            Logger.getLogger(TelaConsultaMarca.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-                    atualizaAposFechar();
+if (jTableCliente.getSelectedRow() >= 0) {
+            try {
+                tcc = new CadastroCliente();
+                tcc.atualizarAposSalvar(this);
+                tcc.alteracao("Alterar Cliente", (String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
+                tcc.setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            msg.msg12();
+        }
+        atualizaAposFechar();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextFieldPesquisar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1MouseClicked
@@ -326,26 +346,27 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldPesquisar1;
     // End of variables declaration//GEN-END:variables
 
-    public void atualizar(){
-//        try {
-//            ArrayList<Cliente> listaDeClientes;
-//            ClasseDAO agenda = new ClasseDAO();
-//            listaDeClientes = agenda.recuperarCliente();
-//            model = (DefaultTableModel) jTableCliente.getModel();
-//            
-//            model.setNumRows(0);
-//            for(int pos=0; pos<listaDeClientes.size();pos++){
-//                String[] saida = new String[4];
-//                Cliente aux = listaDeClientes.get(pos);
-//                saida[0] = aux.getNome();
-//                saida[1] = aux.getCnh();
-//                saida[2] = aux.getEmail();
-//                saida[3] = (aux.getTipoTel1()+" - "+aux.getTelefone1());
-//                model.addRow(saida);
-//            }         
-//        } catch (Exception erro) {
-//            JOptionPane.showMessageDialog(this, erro.getMessage());
-//        }
+    public void atualizar() {
+        try {
+            ArrayList<Object> listaDeClientes;
+            NCliente neg = new NCliente();
+            listaDeClientes = neg.listar();
+            model = (DefaultTableModel) jTableCliente.getModel();
+
+            model.setNumRows(0);
+            for (int pos = 0; pos < listaDeClientes.size(); pos++) {
+                String[] saida = new String[5];
+                Cliente aux = (Cliente) listaDeClientes.get(pos);
+                saida[0] = String.valueOf(aux.getCodigo());
+                saida[1] = aux.getNome();
+                saida[2] = aux.getCpf();
+                saida[3] = aux.getTelefone();
+                saida[4] = String.valueOf(aux.getDataNascimento());
+                model.addRow(saida);
+            }
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(this, erro.getMessage());
+        }
     }
     public void atualizaAposFechar(){
     tcc.addWindowListener(new WindowAdapter() {

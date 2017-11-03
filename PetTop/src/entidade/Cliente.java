@@ -12,15 +12,20 @@ import java.sql.Date;
  * @author HELM
  */
 public class Cliente {
+     private int codigo = 0;
      private String nome = "";
      private String rg = "";
      private String cpf = "";
      private Date dataNascimento;
      private String telefone = "";
+     private String bairro = "";
      private String logradouro = "";
      private String numero = "";
      private String cep = "";
      private String complemento = "";
+     
+     
+     
 
     public String getNome() {
         return nome;
@@ -92,6 +97,22 @@ public class Cliente {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
      
      

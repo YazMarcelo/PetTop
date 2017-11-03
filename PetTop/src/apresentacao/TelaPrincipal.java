@@ -12,6 +12,7 @@ package apresentacao;
 //import interfacesgraficas.Consulta.TelaConsultaMarca;
 //import interfacesgraficas.Consulta.TelaConsultaModelo;
 //import interfacesgraficas.Consulta.TelaConsultaVeiculo;
+import apresentacao.Consulta.TelaConsultaCliente;
 import apresentacao.Consulta.TelaConsultaEspecie;
 import java.awt.Color;
 import static javax.swing.GroupLayout.Alignment.CENTER;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     TelaConsultaEspecie tce = new TelaConsultaEspecie();
+    TelaConsultaCliente tcc = new TelaConsultaCliente();
 //    TelaConsultaVeiculo telaVeiculo = new TelaConsultaVeiculo();
 //    TelaConsultaModelo telaModelo = new TelaConsultaModelo();
 //    TelaConsultaCliente telaCliente = new TelaConsultaCliente();
@@ -301,6 +303,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLocarActionPerformed
 
     private void jButtonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolverActionPerformed
+        tcc.setLocation(182, 36);
+        this.add(tcc);
+        tcc.show();
+
+
 //        telaDevolucao.setLocation(182, 36);
 //       /*this.*/ this.add(telaDevolucao);
 //        telaDevolucao.show();

@@ -55,7 +55,7 @@ public class NEspecie {
         return (Especie) dao.consultar(codigo);
     }
 
-    public ArrayList<Object> listar(int codigo) throws SQLException, Exception {
+    public ArrayList<Object> listar() throws SQLException, Exception {
         return dao.listar();
     }
 

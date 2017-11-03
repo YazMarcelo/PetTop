@@ -10,12 +10,15 @@ import entidade.Especie;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.layout.Pane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import negocio.NEspecie;
 import persistencia.EspecieDAO;
+import util.DatePickerSample;
 import util.Mensagem;
 
 /**
@@ -26,8 +29,8 @@ public class CadastroEspecie extends javax.swing.JFrame {
 
     int idAlteracao = 0;
     String descricao;
-    private boolean terminado;
     TelaConsultaEspecie aux;
+    
 
     /**
      * Creates new form CadastroMarca
@@ -46,7 +49,7 @@ public class CadastroEspecie extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelEspecie = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabelAcao = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -56,7 +59,7 @@ public class CadastroEspecie extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelEspecie.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -95,34 +98,34 @@ public class CadastroEspecie extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelEspecieLayout = new javax.swing.GroupLayout(jPanelEspecie);
+        jPanelEspecie.setLayout(jPanelEspecieLayout);
+        jPanelEspecieLayout.setHorizontalGroup(
+            jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanelEspecieLayout.createSequentialGroup()
+                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
                         .addGap(164, 164, 164)
                         .addComponent(jButtonSalvar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelEspecieLayout.setVerticalGroup(
+            jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelEspecieLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(32, 32, 32)
@@ -134,11 +137,11 @@ public class CadastroEspecie extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelEspecie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -208,18 +211,19 @@ public class CadastroEspecie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelAcao;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelEspecie;
     private javax.swing.JTextField jTextFieldDescricao;
     // End of variables declaration//GEN-END:variables
-
+    private javafx.scene.layout.Pane pane;
+    
     public void atualizarAposSalvar(TelaConsultaEspecie aux) {
         this.aux = aux;
     }
 
     public void alteracao(String acao, String id) throws Exception {
-        EspecieDAO dao = new EspecieDAO();
-        Especie objEspe = (Especie) dao.consultar(id);
+        NEspecie neg = new NEspecie();
+        Especie objEspe = (Especie) neg.consultar(id);
 
         jLabelAcao.setText(acao);
         this.idAlteracao = objEspe.getCodigo();
@@ -229,5 +233,6 @@ public class CadastroEspecie extends javax.swing.JFrame {
     public void limparCampos() {
         jTextFieldDescricao.setText("");
     }
+
 
 }
