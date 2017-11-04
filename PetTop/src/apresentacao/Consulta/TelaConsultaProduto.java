@@ -5,19 +5,20 @@
  */
 package apresentacao.Consulta;
 
-import apresentacao.Cadastro.CadastroCliente;
 import apresentacao.Cadastro.CadastroProduto;
+import entidade.Produto;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import persistencia.ProdutoDAO;
+import negocio.NProduto;
 import util.Mensagem;
 
 /**
@@ -174,7 +175,7 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtro");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Codigo", "Descrição", "Valor", "Saldo" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "Descrição" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -250,9 +251,9 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
                 try {
 
                     String id = (String) jTableProduto.getValueAt(jTableProduto.getSelectedRow(), 0);
-                    ProdutoDAO dao = new ProdutoDAO();
-                    model.removeRow(jTableProduto.getSelectedRow());
-                    jTableProduto.setModel(model);
+                    
+                    NProduto prod = new NProduto();
+                    prod.excluir(id);
 
                     model.removeRow(jTableProduto.getSelectedRow());
                     jTableProduto.setModel(model);
@@ -297,15 +298,13 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if (jComboBox1.getSelectedItem().equals("Nome") || jComboBox1.getSelectedItem().equals("Selecione...")) {
+        if (jComboBox1.getSelectedItem().equals("Código") || jComboBox1.getSelectedItem().equals("Selecione...")) {
             esc = 0;
         }
-        if (jComboBox1.getSelectedItem().equals("CNH")) {
+        if (jComboBox1.getSelectedItem().equals("Descrição")) {
             esc = 1;
         }
-        if (jComboBox1.getSelectedItem().equals("Email")) {
-            esc = 2;
-        }
+        
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -334,33 +333,32 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void atualizar() {
-//        try {
-//            ArrayList<Cliente> listaDeClientes;
-//            ClasseDAO agenda = new ClasseDAO();
-//            listaDeClientes = agenda.recuperarCliente();
-//            model = (DefaultTableModel) jTableCliente.getModel();
-//            
-//            model.setNumRows(0);
-//            for(int pos=0; pos<listaDeClientes.size();pos++){
-//                String[] saida = new String[4];
-//                Cliente aux = listaDeClientes.get(pos);
-//                saida[0] = aux.getNome();
-//                saida[1] = aux.getCnh();
-//                saida[2] = aux.getEmail();
-//                saida[3] = (aux.getTipoTel1()+" - "+aux.getTelefone1());
-//                model.addRow(saida);
-//            }         
-//        } catch (Exception erro) {
-//            JOptionPane.showMessageDialog(this, erro.getMessage());
-//        }
-    }
+        try {
+            ArrayList<Object> listaDeProdutos;
+            NProduto neg = new NProduto();
+            listaDeProdutos = neg.listar();
+            model = (DefaultTableModel) jTableProduto.getModel();
 
-    public void atualizaAposFechar() {
-        tcc.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
-                atualizar();
+            model.setNumRows(0);
+            for (int pos = 0; pos < listaDeProdutos.size(); pos++) {
+                String[] saida = new String[5];
+                Produto aux = (Produto) listaDeProdutos.get(pos);
+                saida[0] = String.valueOf(aux.getCodigo());
+                saida[1] = aux.getDescricao();
+                saida[2] = String.valueOf(aux.getSaldoEstoque());
+                saida[3] = String.valueOf(aux.getValor());
+                model.addRow(saida);
             }
-        });
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(this, erro.getMessage());
+        }
     }
+    public void atualizaAposFechar(){
+    tcc.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent evt) {
+            atualizar();
+        }
+    });  
+}
 
 }
