@@ -11,16 +11,31 @@ package entidade;
  */
 public class Produto {
     
+    private int codigo;
     private String descricao;
     private double valor;
     private int saldoEstoque;
 
-    public Produto(String descricao, double valor, int saldoEstoque) {
+    public Produto(int codigo, String descricao, double valor, int saldoEstoque) {
+        this.codigo = codigo;
         this.descricao = descricao;
         this.valor = valor;
         this.saldoEstoque = saldoEstoque;
     }
 
+
+    public Produto() {
+       
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    
     public String getDescricao() {
         return descricao;
     }
@@ -43,5 +58,11 @@ public class Produto {
 
     public void setSaldoEstoque(int saldoEstoque) {
         this.saldoEstoque = saldoEstoque;
-    }   
+    } 
+
+    @Override
+    public String toString() {
+        return "Produto{" + "codigo=" + codigo + ", descricao=" + descricao + ", valor=" + valor + ", saldoEstoque=" + saldoEstoque + '}';
+    }
+    
 }

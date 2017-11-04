@@ -5,29 +5,30 @@
  */
 package apresentacao.Cadastro;
 
-//import classededados.Cliente;
-//import classededados.GeradorDeId;
-//import classededados.Marca;
-//import classededados.Modelo;
-//import classededados.Veiculo;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import util.Mensagem;
 
+import apresentacao.Consulta.TelaConsultaProduto;
+import entidade.Produto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import negocio.NProduto;
 /**
+
  *
  * @author aluno
  */
 public class CadastroProduto extends javax.swing.JFrame {
 
-    String idAlteracao;
+    int idAlteracao = 0;
+    String descricao;
+    TelaConsultaProduto aux;
 
     /**
      * Creates new form CadastroMarca
      */
     public CadastroProduto() {
         initComponents();
-//        jComboBoxTelefone.setModel(new DefaultComboBoxModel(Cliente.TipoTelefone.values()));
+        setLocationRelativeTo(null);
+
     }
 
     /**
@@ -97,7 +98,7 @@ public class CadastroProduto extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Valor");
+        jLabel7.setText("Valor*");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Dados Gerais");
@@ -172,9 +173,9 @@ public class CadastroProduto extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -200,6 +201,30 @@ public class CadastroProduto extends javax.swing.JFrame {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
 
+        Produto prod = new Produto();
+        NProduto neg = new NProduto();
+
+        try {
+
+            prod.setCodigo(idAlteracao);
+            prod.setDescricao(jTDescricao.getText());
+            prod.setSaldoEstoque(Integer.parseInt(jTEstoque.getText()));
+            prod.setValor(Double.parseDouble(jFValor.getText()));
+
+            neg.salvar(prod);
+
+            if (neg.obrigatoriosPreenchidos(prod)) {
+                if (idAlteracao > 0) {
+                    aux.atualizar();
+                    this.dispose();
+                } else {
+                    limparCampos();
+                }
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -270,46 +295,30 @@ public class CadastroProduto extends javax.swing.JFrame {
     private javax.swing.JTextField jTDescricao;
     private javax.swing.JTextField jTEstoque;
     // End of variables declaration//GEN-END:variables
-//public void alteracao(String acao, String cnh) throws Exception {
-//        jLabelAcao.setText(acao);
-//        ArrayList<Cliente> listaDeClientes;
-//        ClasseDAO agenda = new ClasseDAO();
-//        listaDeClientes = agenda.recuperarCliente();
-//        for (int pos = 0; pos < listaDeClientes.size(); pos++) {
-//            Cliente aux = listaDeClientes.get(pos);
-//
-//            if (cnh.equals(String.valueOf(aux.getCnh()))) {
-//                this.idAlteracao = String.valueOf(aux.getCnh());
-//                jComboBoxTipoTel1.setSelectedItem(aux.getTipoTel1());
-//                jComboBoxTipoTel2.setSelectedItem(aux.getTipoTel2());
-//                jFormattedTextFieldCNH.setText(aux.getCnh());
-//                jTextFieldNome.setText(aux.getNome());
-//                jTextFieldEmail.setText(aux.getEmail());
-//                jFormattedTextFieldTef1.setText(aux.getTelefone1());
-//                jFormattedTextFieldTef2.setText(aux.getTelefone2());
-//
-//            }
-//        }
-//
-//    }
 
-    public void validacaoTef1() {
-        Mensagem msg = new Mensagem();
-        try {
-            if (jFValor.getValue().equals("")) {
-                msg.msg11();
-            } else {
-                jFValor.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("¤ #,##0.00")));
-            }
-        } catch (java.text.ParseException ex) {
 
-        }
+    public void atualizarAposSalvar(TelaConsultaProduto aux) {
+        this.aux = aux;
     }
 
-    public void limpar() {        
+    public void alteracao(String acao, String id) throws Exception {
+        NProduto neg = new NProduto();
+        Produto objProduto = (Produto) neg.consultar(id);
+        
+        jLabelAcao.setText(acao);
+        this.idAlteracao = objProduto.getCodigo();
+        
+        jTDescricao.setText(objProduto.getDescricao());
+        jTEstoque.setText(String.valueOf(objProduto.getSaldoEstoque()));
+        jFValor.setText(String.valueOf(objProduto.getValor()));        
+    
+    }
+
+    public void limparCampos() {
         jTCodigo.setText("");
         jTDescricao.setText("");
         jFValor.setText("");
         jTEstoque.setText("");
     }
+
 }
