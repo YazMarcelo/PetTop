@@ -5,8 +5,6 @@
  */
 package persistencia;
 
-import entidade.Cliente;
-import entidade.Especie;
 import entidade.Produto;
 import interfaces.CRUD;
 import java.sql.Connection;
