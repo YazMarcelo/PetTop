@@ -5,8 +5,6 @@
  */
 package persistencia;
 
-import entidade.Cliente;
-import entidade.Especie;
 import entidade.Produto;
 import interfaces.CRUD;
 import java.sql.Connection;
@@ -33,7 +31,8 @@ public class ProdutoDAO implements CRUD {
 
         //Seta os valores para o procedimento
         prd.setString(1, objProduto.getDescricao());
-
+        prd.setString(2, String.valueOf(objProduto.getValor()));
+        prd.setString(3, String.valueOf(objProduto.getSaldoEstoque()));
         //Executa o comando no banco de dados
         prd.execute();
 
@@ -73,8 +72,8 @@ public class ProdutoDAO implements CRUD {
 
     @Override
     public void alterar(Object objeto) throws Exception {
-        Produto objProduto =  (Produto) (objeto);
-        
+        Produto objProduto = (Produto) (objeto);
+
         //Cria a instrução SQL para a inserção no banco
         String sql = "update produto set prod_descricao = ?, "
                 + "prod_valor = ?, "
@@ -90,11 +89,11 @@ public class ProdutoDAO implements CRUD {
         prd.setString(1, objProduto.getDescricao());
         prd.setString(2, String.valueOf(objProduto.getValor()));
         prd.setString(3, String.valueOf(objProduto.getSaldoEstoque()));
-        
+
         prd.execute();
 
         prd.close();
-        cnn.close(); 
+        cnn.close();
     }
 
     @Override
@@ -116,8 +115,8 @@ public class ProdutoDAO implements CRUD {
 
         if (rs.next()) {
             objeto.setCodigo(rs.getInt("prod_id"));
-            objeto.setDescricao(rs.getString("prod_descricao"));            
-            objeto.setValor((rs.getDouble("prod_quantidade"))); 
+            objeto.setDescricao(rs.getString("prod_descricao"));
+            objeto.setValor((rs.getDouble("prod_quantidade")));
             objeto.setSaldoEstoque(rs.getInt("prod_valor"));
         }
 
@@ -131,7 +130,7 @@ public class ProdutoDAO implements CRUD {
 
     @Override
     public ArrayList<Object> listar() throws Exception {
-               ArrayList<Object> listaEspecie = new ArrayList<>();
+        ArrayList<Object> listaProduto = new ArrayList<>();
 
         String sql = "select * from produto order by produto_id";
 
@@ -147,15 +146,15 @@ public class ProdutoDAO implements CRUD {
             objeto.setDescricao(rs.getString("prod_descricao"));
             objeto.setValor(rs.getDouble("prod_valor"));
             objeto.setSaldoEstoque(rs.getInt("prod_quantidade"));
-            
-            listaEspecie.add(objeto);
+
+            listaProduto.add(objeto);
         }
 
         rs.close();
         cnn.close();
 
-        return listaEspecie;
-    
+        return listaProduto;
+
     }
 
 }
