@@ -14,7 +14,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,6 +27,7 @@ import javax.swing.table.TableRowSorter;
 import negocio.NCliente;
 import persistencia.ClienteDAO;
 import util.Mensagem;
+import util.Utilitarios;
 
 /**
  *
@@ -348,6 +352,7 @@ if (jTableCliente.getSelectedRow() >= 0) {
 
     public void atualizar() {
         try {
+
             ArrayList<Object> listaDeClientes;
             NCliente neg = new NCliente();
             listaDeClientes = neg.listar();
@@ -361,7 +366,7 @@ if (jTableCliente.getSelectedRow() >= 0) {
                 saida[1] = aux.getNome();
                 saida[2] = aux.getCpf();
                 saida[3] = aux.getTelefone();
-                saida[4] = String.valueOf(aux.getDataNascimento());
+                saida[4] = Utilitarios.dateBRFormat(String.valueOf(aux.getDataNascimento()));
                 model.addRow(saida);
             }
         } catch (Exception erro) {

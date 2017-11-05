@@ -5,56 +5,91 @@
  */
 package util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.Date;
+
 /**
  *
  * @author HELM
  */
 public class Utilitarios {
-    
-    	  public boolean validarCPF(String strCpf) {
-	      int     d1, d2;
-	      int     digito1, digito2, resto;
-	      int     digitoCPF;
-	      String  nDigResult;
 
-	      d1 = d2 = 0;
-	      digito1 = digito2 = resto = 0;
+    public boolean validarCPF(String strCpf) {
+        int d1, d2;
+        int digito1, digito2, resto;
+        int digitoCPF;
+        String nDigResult;
 
-	      for (int nCount = 1; nCount < strCpf.length() -1; nCount++)
-	      {
-	         digitoCPF = Integer.valueOf (strCpf.substring(nCount -1, nCount)).intValue();
+        d1 = d2 = 0;
+        digito1 = digito2 = resto = 0;
 
-	         d1 = d1 + ( 11 - nCount ) * digitoCPF;
+        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {
+            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();
 
-	         d2 = d2 + ( 12 - nCount ) * digitoCPF;
-	      };
+            d1 = d1 + (11 - nCount) * digitoCPF;
 
-	      resto = (d1 % 11);
+            d2 = d2 + (12 - nCount) * digitoCPF;
+        };
 
-	      if (resto < 2)
-	         digito1 = 0;
-	      else
-	         digito1 = 11 - resto;
+        resto = (d1 % 11);
 
-	      d2 += 2 * digito1;
+        if (resto < 2) {
+            digito1 = 0;
+        } else {
+            digito1 = 11 - resto;
+        }
 
-	      resto = (d2 % 11);
+        d2 += 2 * digito1;
 
-	      if (resto < 2)
-	         digito2 = 0;
-	      else
-	         digito2 = 11 - resto;
+        resto = (d2 % 11);
 
-	      String nDigVerific = strCpf.substring (strCpf.length()-2, strCpf.length());
+        if (resto < 2) {
+            digito2 = 0;
+        } else {
+            digito2 = 11 - resto;
+        }
 
-	      nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());
 
-	      return nDigVerific.equals(nDigResult);
-	   }
-          
-          
-          
-          
-    
-    
+        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+
+        return nDigVerific.equals(nDigResult);
+    }
+
+    public static String dateBRFormat(String data) throws ParseException {
+
+        if (!(data.equals("null")) && !(data.equals(""))) {
+            //Primeiro converte de String para Date
+            DateFormat formatUS = new SimpleDateFormat("yyyy-mm-dd");
+            Date date = formatUS.parse(data);
+
+            //Depois formata data
+            DateFormat formatBR = new SimpleDateFormat("dd-mm-yyyy");
+            String dateFormated = formatBR.format(date);
+            dateFormated = dateFormated.replace(("-"), "/");
+            return dateFormated;
+        }
+        return null;
+
+    }
+
+    public static boolean isDateValid(String strDate) {
+        String dateFormat = "dd/MM/yyyy";
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat).withResolverStyle(ResolverStyle.STRICT);
+
+        try {
+            LocalDate date = LocalDate.parse(strDate, dateTimeFormatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
 }
