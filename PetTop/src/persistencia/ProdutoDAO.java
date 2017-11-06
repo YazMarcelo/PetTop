@@ -31,8 +31,8 @@ public class ProdutoDAO implements CRUD {
 
         //Seta os valores para o procedimento
         prd.setString(1, objProduto.getDescricao());
-        prd.setString(2, String.valueOf(objProduto.getValor()));
-        prd.setString(3, String.valueOf(objProduto.getSaldoEstoque()));
+        prd.setDouble(2, objProduto.getValor());
+        prd.setInt(3, objProduto.getSaldoEstoque());
         //Executa o comando no banco de dados
         prd.execute();
 
@@ -77,7 +77,8 @@ public class ProdutoDAO implements CRUD {
         //Cria a instrução SQL para a inserção no banco
         String sql = "update produto set prod_descricao = ?, "
                 + "prod_valor = ?, "
-                + "prod_quantidade = ?;";
+                + "prod_quantidade = ?"
+                + "where prod_id = ?;";
 
         Connection cnn = util.Conexao.getConexao();
 
@@ -89,6 +90,7 @@ public class ProdutoDAO implements CRUD {
         prd.setString(1, objProduto.getDescricao());
         prd.setString(2, String.valueOf(objProduto.getValor()));
         prd.setString(3, String.valueOf(objProduto.getSaldoEstoque()));
+        prd.setInt(4, objProduto.getCodigo());
 
         prd.execute();
 
@@ -132,7 +134,7 @@ public class ProdutoDAO implements CRUD {
     public ArrayList<Object> listar() throws Exception {
         ArrayList<Object> listaProduto = new ArrayList<>();
 
-        String sql = "select * from produto order by produto_id";
+        String sql = "select * from produto order by prod_id";
 
         Connection cnn = util.Conexao.getConexao();
         Statement stm = cnn.createStatement();
