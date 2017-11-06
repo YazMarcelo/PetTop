@@ -57,13 +57,11 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jTextFieldValor" min="-2" pref="119" max="-2" attributes="0"/>
                                       <Component id="jTextFieldDescricao" min="-2" pref="330" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldCodigo" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -97,12 +95,7 @@
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace pref="52" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -211,15 +204,8 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldValor">
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="C&#xf3;digo: "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldCodigo">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldCodigoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldValorActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

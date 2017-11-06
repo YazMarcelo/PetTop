@@ -5,23 +5,26 @@
  */
 package apresentacao.Cadastro;
 
-//import classededados.Cliente;
-//import classededados.GeradorDeId;
-//import classededados.Marca;
-//import classededados.Modelo;
-//import classededados.Veiculo;
-import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
+import apresentacao.Consulta.TelaConsultaEspecie;
+import apresentacao.Consulta.TelaConsultaProduto;
+import apresentacao.Consulta.TelaConsultaServico;
+import entidade.Especie;
+import entidade.Produto;
+import entidade.Servico;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import negocio.NEspecie;
+import negocio.NProduto;
+import negocio.NServico;
 
 /**
  *
  * @author aluno
  */
 public class CadastroServico extends javax.swing.JFrame {
-    String idAlteracao;
+    int idAlteracao;
+    TelaConsultaServico aux;
+    
     /**
      * Creates new form CadastroMarca
      */
@@ -50,8 +53,6 @@ public class CadastroServico extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldValor = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextFieldCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,11 +106,9 @@ public class CadastroServico extends javax.swing.JFrame {
 
         jLabel4.setText("Valor R$ : * ");
 
-        jLabel5.setText("Código: ");
-
-        jTextFieldCodigo.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldCodigoActionPerformed(evt);
+                jTextFieldValorActionPerformed(evt);
             }
         });
 
@@ -129,13 +128,11 @@ public class CadastroServico extends javax.swing.JFrame {
                                 .addGap(91, 91, 91)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel2))
@@ -159,11 +156,7 @@ public class CadastroServico extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -192,15 +185,40 @@ public class CadastroServico extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        Servico serv = new Servico();
+        NServico neg = new NServico();
+
+        try {
+
+            serv.setCodigo(idAlteracao);
+            serv.setDescricao(jTextFieldDescricao.getText());
+            serv.setValor(Double.parseDouble(jTextFieldValor.getText()));
+
+            neg.salvar(serv);
+
+            if (neg.obrigatoriosPreenchidos(serv)) {
+                if (idAlteracao > 0){
+                    aux.atualizar();
+                    this.dispose();
+                } else {
+                    limparCampos();
+                }
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldDescricaoActionPerformed
 
-    private void jTextFieldCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodigoActionPerformed
+    private void jTextFieldValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldCodigoActionPerformed
+    }//GEN-LAST:event_jTextFieldValorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,39 +292,32 @@ public class CadastroServico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelAcao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldDescricao;
     private javax.swing.JTextField jTextFieldValor;
     // End of variables declaration//GEN-END:variables
-//public void alteracao(String acao, String cnh) throws Exception {
-//        jLabelAcao.setText(acao);
-//        ArrayList<Cliente> listaDeClientes;
-//        ClasseDAO agenda = new ClasseDAO();
-//        listaDeClientes = agenda.recuperarCliente();
-//        for (int pos = 0; pos < listaDeClientes.size(); pos++) {
-//            Cliente aux = listaDeClientes.get(pos);
-//
-//            if (cnh.equals(String.valueOf(aux.getCnh()))) {
-//                this.idAlteracao = String.valueOf(aux.getCnh());
-//                jComboBoxTipoTel1.setSelectedItem(aux.getTipoTel1());
-//                jComboBoxTipoTel2.setSelectedItem(aux.getTipoTel2());
-//                jFormattedTextFieldCNH.setText(aux.getCnh());
-//                jTextFieldNome.setText(aux.getNome());
-//                jTextFieldEmail.setText(aux.getEmail());
-//                jFormattedTextFieldTef1.setText(aux.getTelefone1());
-//                jFormattedTextFieldTef2.setText(aux.getTelefone2());
-//
-//            }
-//        }
-//
-//    }
+    private javafx.scene.layout.Pane pane;
+    
+    public void atualizarAposSalvar(TelaConsultaServico aux) {
+        this.aux = aux;
+    }
 
-  
+    public void alteracao(String acao, String id) throws Exception {
+        NServico neg = new NServico();
+        Servico objServico = (Servico) neg.consultar(id);
+
+        jLabelAcao.setText(acao);
+        this.idAlteracao = objServico.getCodigo();
+        jTextFieldDescricao.setText(objServico.getDescricao());
+    }
+
+    public void limparCampos() {
+        jTextFieldDescricao.setText("");
+        jTextFieldValor.setText("");
+    }
      
   
 }
