@@ -33,12 +33,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     TelaConsultaCliente tcc = new TelaConsultaCliente();
     TelaConsultaProduto tcp = new TelaConsultaProduto();
     TelaConsultaServico tcs = new TelaConsultaServico();
-//    TelaConsultaVeiculo telaVeiculo = new TelaConsultaVeiculo();
-//    TelaConsultaModelo telaModelo = new TelaConsultaModelo();
-//    TelaConsultaCliente telaCliente = new TelaConsultaCliente();
-//    TelaLocar telaLocar = new TelaLocar();
-//    TelaConsultaLocados telaDevolucao = new TelaConsultaLocados();
-//    TelaConsultaDevolvidos tcd = new TelaConsultaDevolvidos();
     boolean aberta;
     
     /**
@@ -280,16 +274,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutoActionPerformed
-        dispose();
-//        telaCliente.setLocation(182, 36);
-//       /*this.*/ this.add(telaCliente);
-//        telaCliente.show();
-//        telaVeiculo.dispose();
-//        telaMarca.dispose();
-//        telaModelo.dispose();
-//        telaLocar.dispose();
-//        telaDevolucao.dispose();
-//        tcd.dispose();
+        tcp.setLocation(182, 36);
+        this.add(tcp);
+        tcp.show();
+        tce.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonProdutoActionPerformed
 
