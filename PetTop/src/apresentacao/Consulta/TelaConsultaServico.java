@@ -5,9 +5,8 @@
  */
 package apresentacao.Consulta;
 
-import apresentacao.Cadastro.CadastroCliente;
-//import classededados.Marca;
-//import interfacesgraficas.Cadastro.CadastroCliente;
+import apresentacao.Cadastro.CadastroServico;
+import entidade.Servico;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -19,7 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import persistencia.ClienteDAO;
+import negocio.NServico;
+import persistencia.ServicoDAO;
+import util.Mensagem;
 
 /**
  *
@@ -28,13 +29,14 @@ import persistencia.ClienteDAO;
 public class TelaConsultaServico extends javax.swing.JInternalFrame {
     DefaultTableModel model = null;
     TableRowSorter trs;
-    int esc;
-    CadastroCliente tcc;
+    int serv;
+    CadastroServico tcs;
+    Mensagem msg = new Mensagem();
     
     /**
      * Creates new form TelaConsultaVeículo
      */
-    public TelaConsultaServico() {
+    public TelaConsultaServico(){
         initComponents();
         atualizar();
 
@@ -52,12 +54,12 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonNovoServico = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableServico = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jButtonAlterar = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
+        jButtonAtualizar = new javax.swing.JButton();
         jTextFieldPesquisar1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -73,13 +75,13 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Consulta de Serviço");
 
-        jButton1.setBackground(new java.awt.Color(0, 136, 204));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("+ Novo Serviço");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonNovoServico.setBackground(new java.awt.Color(0, 136, 204));
+        jButtonNovoServico.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButtonNovoServico.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonNovoServico.setText("+ Novo Serviço");
+        jButtonNovoServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonNovoServicoActionPerformed(evt);
             }
         });
 
@@ -91,7 +93,7 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonNovoServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -100,7 +102,7 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addComponent(jButtonNovoServico, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -120,6 +122,7 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableServico.setShowVerticalLines(false);
         jScrollPane1.setViewportView(jTableServico);
         if (jTableServico.getColumnModel().getColumnCount() > 0) {
             jTableServico.getColumnModel().getColumn(0).setMinWidth(45);
@@ -129,33 +132,33 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
             jTableServico.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
-        jButton2.setBackground(new java.awt.Color(0, 136, 204));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Alterar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAlterar.setBackground(new java.awt.Color(0, 136, 204));
+        jButtonAlterar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonAlterar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonAlterarActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(210, 50, 45));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Excluir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonExcluir.setBackground(new java.awt.Color(210, 50, 45));
+        jButtonExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonExcluirActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(4, 165, 30));
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Atualizar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAtualizar.setBackground(new java.awt.Color(4, 165, 30));
+        jButtonAtualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonAtualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAtualizar.setText("Atualizar");
+        jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButtonAtualizarActionPerformed(evt);
             }
         });
 
@@ -183,6 +186,11 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
         jLabel2.setText("Filtro");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "Descrição" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,11 +201,11 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addComponent(jButton2)
+                        .addComponent(jButtonAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(jButtonExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
+                        .addComponent(jButtonAtualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -217,9 +225,9 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3)
-                        .addComponent(jButton5))
+                        .addComponent(jButtonAlterar)
+                        .addComponent(jButtonExcluir)
+                        .addComponent(jButtonAtualizar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,47 +253,56 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        tcc = new CadastroCliente();
-        tcc.setVisible(true);
+    private void jButtonNovoServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoServicoActionPerformed
+        tcs = new CadastroServico();
+        tcs.setVisible(true);
         atualizaAposFechar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonNovoServicoActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    atualizar();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (jTableServico.getSelectedRow() >= 0){
-            int resposta  = JOptionPane.showConfirmDialog(rootPane, "Excluir Cliente?");
-            if(resposta == JOptionPane.YES_OPTION){
+    private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
         try {
-            
-            String cnh = (String)jTableServico.getValueAt(jTableServico.getSelectedRow(), 1);
-            ClienteDAO dao = new ClienteDAO();
-//            dao.excluirCliente(cnh);
-            model.removeRow(jTableServico.getSelectedRow());
-            jTableServico.setModel(model);
-        
+            atualizar();
         } catch (Exception ex) {
             Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
         }
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma linha!");
-        } 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        try {
-//        tcc= new CadastroCliente();
-//            tcc.alteracao("Alterar Cliente",(String)jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1));
-//            tcc.setVisible(true);
-//        } catch (Exception ex) {
-//            Logger.getLogger(TelaConsultaMarca.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-                    atualizaAposFechar();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (jTableServico.getSelectedRow() >= 0){
+            int resposta  = JOptionPane.showConfirmDialog(rootPane, "Excluir Serviço?");
+            if(resposta == JOptionPane.YES_OPTION){
+        try {
+            
+            String id = (String)jTableServico.getValueAt(jTableServico.getSelectedRow(), 1);
+            ServicoDAO dao = new ServicoDAO();
+            dao.excluir(id);
+            model.removeRow(jTableServico.getSelectedRow());
+            jTableServico.setModel(model);
+        
+        }  catch (Exception ex) {
+                    Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            msg.msg12();
+        } 
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        if (jTableServico.getSelectedRow() >= 0) {
+            try {
+                tcs = new CadastroServico();
+                tcs.atualizarAposSalvar(this);
+                tcs.alteracao("Alterar Serviço", (String) jTableServico.getValueAt(jTableServico.getSelectedRow(), 0));
+                tcs.setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            msg.msg12();
+        }
+        atualizaAposFechar();
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jTextFieldPesquisar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1MouseClicked
         jTextFieldPesquisar1.setText("");
@@ -300,27 +317,34 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldPesquisar1KeyReleased
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
-        jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Nome")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 0; 
-        if(jComboBox1.getSelectedItem().equals("CNH")) esc = 1; 
-        if(jComboBox1.getSelectedItem().equals("Email")) esc = 2; 
+         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
+        if (jComboBox1.getSelectedItem().equals("Descrição") || jComboBox1.getSelectedItem().equals("Selecione...")) {
+            serv = 1;
+        } else {
+            serv = 0;
+        }
+
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)"+jTextFieldPesquisar1.getText(),esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), serv));
             }
         });
         trs = new TableRowSorter(model);
         jTableServico.setRowSorter(trs);
     }//GEN-LAST:event_jTextFieldPesquisar1KeyTyped
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonAlterar;
+    private javax.swing.JButton jButtonAtualizar;
+    private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonNovoServico;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -332,32 +356,34 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void atualizar(){
-//        try {
-//            ArrayList<Cliente> listaDeClientes;
-//            ClasseDAO agenda = new ClasseDAO();
-//            listaDeClientes = agenda.recuperarCliente();
-//            model = (DefaultTableModel) jTableCliente.getModel();
-//            
-//            model.setNumRows(0);
-//            for(int pos=0; pos<listaDeClientes.size();pos++){
-//                String[] saida = new String[4];
-//                Cliente aux = listaDeClientes.get(pos);
-//                saida[0] = aux.getNome();
-//                saida[1] = aux.getCnh();
-//                saida[2] = aux.getEmail();
-//                saida[3] = (aux.getTipoTel1()+" - "+aux.getTelefone1());
-//                model.addRow(saida);
-//            }         
-//        } catch (Exception erro) {
-//            JOptionPane.showMessageDialog(this, erro.getMessage());
-//        }
-    }
-    public void atualizaAposFechar(){
-    tcc.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            atualizar();
+        
+    try{
+            ArrayList<Object> listaDeServico;
+            NServico neg = new NServico();
+            listaDeServico = neg.listar();
+            model = (DefaultTableModel) jTableServico.getModel();
+
+            model.setNumRows(0);
+            for (int pos = 0; pos < listaDeServico.size(); pos++) {
+                String[] saida = new String[3];
+                Servico aux = (Servico) listaDeServico.get(pos);
+                saida[0] = String.valueOf(aux.getCodigo());
+                saida[1] = aux.getDescricao();
+                saida[2] = String.valueOf(aux.getValor());
+                model.addRow(saida);
+            }   
+        } catch (Exception ex) {
+                        Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-    });  
-}
+    }
+    
+    public void atualizaAposFechar() {
+        tcs.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                atualizar();
+            }
+        });
+    }
 
 }
