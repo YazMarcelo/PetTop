@@ -33,7 +33,7 @@ public class ServicoDAO implements CRUD{
 
         //Seta os valores para o procedimento
         prd.setString(1, objServico.getDescricao());
-        prd.setDouble(1, objServico.getValor());
+        prd.setDouble(2, objServico.getValor());
 
 
         //Executa o comando no banco de dados
