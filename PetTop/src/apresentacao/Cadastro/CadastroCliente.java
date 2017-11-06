@@ -14,6 +14,7 @@ import apresentacao.Consulta.TelaConsultaCliente;
 import entidade.Cliente;
 import entidade.Especie;
 import java.awt.Color;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import javax.swing.text.MaskFormatter;
 import negocio.NCliente;
 import negocio.NEspecie;
 import persistencia.ClienteDAO;
+import util.Utilitarios;
 
 /**
  *
@@ -50,13 +52,11 @@ public class CadastroCliente extends javax.swing.JFrame {
     TelaConsultaCliente aux;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-
-
     /**
      * Creates new form CadastroMarca
      */
     public CadastroCliente() {
-       
+
         initComponents();
 //        jComboBoxTelefone.setModel(new DefaultComboBoxModel(Cliente.TipoTelefone.values()));
     }
@@ -351,7 +351,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Cliente clie = new Cliente();
         NCliente neg = new NCliente();
-
+        
         try {
             clie.setCodigo(idAlteracao);
             clie.setNome(jTextFieldNome.getText());
@@ -372,15 +372,15 @@ public class CadastroCliente extends javax.swing.JFrame {
             clie.setComplemento(jTextFieldComp.getText());
 
             neg.salvar(clie);
-            
-            if(neg.obrigatoriosPreenchidos(clie)){
-                
-            if (idAlteracao > 0) {
-                aux.atualizar();
-                this.dispose();
-            } else {
-                limparCampos();
-            }
+
+            if (neg.obrigatoriosPreenchidos(clie)) {
+
+                if (idAlteracao > 0) {
+                    aux.atualizar();
+                    this.dispose();
+                } else {
+                    limparCampos();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -481,20 +481,17 @@ public class CadastroCliente extends javax.swing.JFrame {
     public void alteracao(String acao, String id) throws Exception {
         NCliente neg = new NCliente();
         Cliente objCliente = (Cliente) neg.consultar(id);
-        
+
         jLabelAcao.setText(acao);
         this.idAlteracao = objCliente.getCodigo();
 
         jTextFieldNome.setText(objCliente.getNome());
         jTextFieldRG.setText(objCliente.getRg());
         jFormattedTextFieldCPF.setText(objCliente.getCpf());
-        
-        SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat out = new SimpleDateFormat("dd/MM/yyyy");
-        
-        String result = out.format(in.parse(objCliente.getDataNascimento().toString()));
-        
-        jFormattedTextFieldDataNasc.setText(result);
+
+        String dateFormated = Utilitarios.dateBRFormat(String.valueOf(objCliente.getDataNascimento()));
+
+        jFormattedTextFieldDataNasc.setText(dateFormated);
         jFormattedTextFieldTef1.setText(objCliente.getTelefone());
         jTextFieldBairro.setText(objCliente.getBairro());
         jFormattedTextFieldCEP.setText(objCliente.getCep());

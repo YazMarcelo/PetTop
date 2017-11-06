@@ -14,10 +14,15 @@ package apresentacao;
 //import interfacesgraficas.Consulta.TelaConsultaVeiculo;
 import apresentacao.Consulta.TelaConsultaCliente;
 import apresentacao.Consulta.TelaConsultaEspecie;
+import apresentacao.Consulta.TelaConsultaProduto;
+import apresentacao.Consulta.TelaConsultaServico;
 import java.awt.Color;
+import static javax.management.Query.lt;
 import static javax.swing.GroupLayout.Alignment.CENTER;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.DesktopPaneUI;
 
 /**
  *
@@ -26,6 +31,8 @@ import javax.swing.JPanel;
 public class TelaPrincipal extends javax.swing.JFrame {
     TelaConsultaEspecie tce = new TelaConsultaEspecie();
     TelaConsultaCliente tcc = new TelaConsultaCliente();
+    TelaConsultaProduto tcp = new TelaConsultaProduto();
+    TelaConsultaServico tcs = new TelaConsultaServico();
 //    TelaConsultaVeiculo telaVeiculo = new TelaConsultaVeiculo();
 //    TelaConsultaModelo telaModelo = new TelaConsultaModelo();
 //    TelaConsultaCliente telaCliente = new TelaConsultaCliente();
@@ -69,13 +76,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu11 = new javax.swing.JMenu();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         jPanel1 = new javax.swing.JPanel();
-        jButtonCliente = new javax.swing.JButton();
+        jButtonProduto = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButtonLocar = new javax.swing.JButton();
-        jButtonDevolver = new javax.swing.JButton();
+        jButtonPedido = new javax.swing.JButton();
+        jButtonCliente = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButtonDevolver1 = new javax.swing.JButton();
-        jButtonCliente1 = new javax.swing.JButton();
+        jButtonServicos = new javax.swing.JButton();
+        jButtonEspecie = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabelSair = new javax.swing.JLabel();
         jLabelBemVindo = new javax.swing.JLabel();
@@ -110,37 +117,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar4.add(jMenu11);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PetTop");
         setBackground(new java.awt.Color(51, 51, 51));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
+        jButtonProduto.setBackground(new java.awt.Color(51, 51, 51));
+        jButtonProduto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonProduto.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonProduto.setText("Produtos");
+        jButtonProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProdutoActionPerformed(evt);
+            }
+        });
+
+        jButtonPedido.setBackground(new java.awt.Color(51, 51, 51));
+        jButtonPedido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonPedido.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPedido.setText("Pedido");
+        jButtonPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPedidoActionPerformed(evt);
+            }
+        });
+
         jButtonCliente.setBackground(new java.awt.Color(51, 51, 51));
         jButtonCliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButtonCliente.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCliente.setText("Produtos");
+        jButtonCliente.setText("Cliente");
         jButtonCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonClienteActionPerformed(evt);
-            }
-        });
-
-        jButtonLocar.setBackground(new java.awt.Color(51, 51, 51));
-        jButtonLocar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonLocar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonLocar.setText("Pedido");
-        jButtonLocar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLocarActionPerformed(evt);
-            }
-        });
-
-        jButtonDevolver.setBackground(new java.awt.Color(51, 51, 51));
-        jButtonDevolver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonDevolver.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonDevolver.setText("Cliente");
-        jButtonDevolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDevolverActionPerformed(evt);
             }
         });
 
@@ -148,23 +156,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("MENU");
 
-        jButtonDevolver1.setBackground(new java.awt.Color(51, 51, 51));
-        jButtonDevolver1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonDevolver1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonDevolver1.setText("Serviços");
-        jButtonDevolver1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonServicos.setBackground(new java.awt.Color(51, 51, 51));
+        jButtonServicos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonServicos.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonServicos.setText("Serviços");
+        jButtonServicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDevolver1ActionPerformed(evt);
+                jButtonServicosActionPerformed(evt);
             }
         });
 
-        jButtonCliente1.setBackground(new java.awt.Color(51, 51, 51));
-        jButtonCliente1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCliente1.setText("Especie");
-        jButtonCliente1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEspecie.setBackground(new java.awt.Color(51, 51, 51));
+        jButtonEspecie.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonEspecie.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEspecie.setText("Especie");
+        jButtonEspecie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCliente1ActionPerformed(evt);
+                jButtonEspecieActionPerformed(evt);
             }
         });
 
@@ -179,11 +187,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonLocar, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDevolver1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -194,15 +202,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonLocar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jButtonDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jButtonDevolver1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jButtonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jButtonProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jButtonEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -247,13 +255,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 20, Short.MAX_VALUE)
+                        .addGap(0, 1358, Short.MAX_VALUE)
                         .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(176, 176, 176))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(401, 401, 401)
                         .addComponent(jLabelBemVindo)
-                        .addContainerGap(374, Short.MAX_VALUE))
+                        .addContainerGap(789, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -271,7 +279,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClienteActionPerformed
+    private void jButtonProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutoActionPerformed
+        dispose();
 //        telaCliente.setLocation(182, 36);
 //       /*this.*/ this.add(telaCliente);
 //        telaCliente.show();
@@ -282,13 +291,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        telaDevolucao.dispose();
 //        tcd.dispose();
         jLabelBemVindo.setText("");
-    }//GEN-LAST:event_jButtonClienteActionPerformed
+    }//GEN-LAST:event_jButtonProdutoActionPerformed
 
     private void jLabelSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSairMouseClicked
         this.dispose();
     }//GEN-LAST:event_jLabelSairMouseClicked
 
-    private void jButtonLocarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocarActionPerformed
+    private void jButtonPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPedidoActionPerformed
 //       telaLocar.setLocation(182, 36);
 //       /*this.*/ this.add(telaLocar);
 //        telaLocar.atualizarTableCliente();
@@ -300,12 +309,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        telaDevolucao.dispose();
 //        tcd.dispose();
         jLabelBemVindo.setText("");
-    }//GEN-LAST:event_jButtonLocarActionPerformed
+    }//GEN-LAST:event_jButtonPedidoActionPerformed
 
-    private void jButtonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolverActionPerformed
+    private void jButtonClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClienteActionPerformed
         tcc.setLocation(182, 36);
         this.add(tcc);
         tcc.show();
+        tce.dispose();
 
 
 //        telaDevolucao.setLocation(182, 36);
@@ -318,9 +328,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        telaLocar.dispose();
 //        tcd.dispose();
         jLabelBemVindo.setText("");
-    }//GEN-LAST:event_jButtonDevolverActionPerformed
+    }//GEN-LAST:event_jButtonClienteActionPerformed
 
-    private void jButtonDevolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolver1ActionPerformed
+    private void jButtonServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServicosActionPerformed
 //        tcd.setLocation(182, 36);
 //       /*this.*/ this.add(tcd);
 //        tcd.show();
@@ -331,14 +341,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        telaDevolucao.dispose();
 //        telaCliente.dispose();
         jLabelBemVindo.setText("");
-    }//GEN-LAST:event_jButtonDevolver1ActionPerformed
+    }//GEN-LAST:event_jButtonServicosActionPerformed
 
-    private void jButtonCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCliente1ActionPerformed
+    private void jButtonEspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEspecieActionPerformed
         tce.setLocation(182, 36);
         this.add(tce);
         tce.show();
+        tcc.dispose();
         jLabelBemVindo.setText("");
-    }//GEN-LAST:event_jButtonCliente1ActionPerformed
+    }//GEN-LAST:event_jButtonEspecieActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,10 +390,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButtonCliente;
-    private javax.swing.JButton jButtonCliente1;
-    private javax.swing.JButton jButtonDevolver;
-    private javax.swing.JButton jButtonDevolver1;
-    private javax.swing.JButton jButtonLocar;
+    private javax.swing.JButton jButtonEspecie;
+    private javax.swing.JButton jButtonPedido;
+    private javax.swing.JButton jButtonProduto;
+    private javax.swing.JButton jButtonServicos;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBemVindo;
@@ -404,4 +415,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+//public void FechaInternalFrames(){
+//        JInternalFrame[] frames = DesktopPaneUI.;
+//        int i = 0;
+//        int j = frames.length;
+//          while ( i < j ){
+//               frames[i].dispose();
+//               i++;
+//          }
+//    }
+
 }

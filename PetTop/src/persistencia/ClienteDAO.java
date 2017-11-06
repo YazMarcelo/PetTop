@@ -152,6 +152,7 @@ public class ClienteDAO implements CRUD{
             objeto.setLogradouro(rs.getString("clie_logradouro"));
             objeto.setNumero(rs.getString("clie_numero"));
             objeto.setComplemento(rs.getString("clie_complemento"));
+            objeto.setCep(rs.getString("clie_cep"));
         }
 
         prd.execute();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
       <Properties>
@@ -97,6 +97,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="PetTop"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="33" green="33" red="33" type="rgb"/>
     </Property>
@@ -124,14 +125,14 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1358" max="32767" attributes="0"/>
                       <Component id="filler1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="401" max="-2" attributes="0"/>
                       <Component id="jLabelBemVindo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="374" max="32767" attributes="0"/>
+                      <EmptySpace pref="789" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
               </Group>
@@ -181,11 +182,11 @@
               </Group>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonCliente" min="-2" pref="182" max="-2" attributes="0"/>
-                      <Component id="jButtonLocar" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
-                      <Component id="jButtonDevolver" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
-                      <Component id="jButtonDevolver1" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
-                      <Component id="jButtonCliente1" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                      <Component id="jButtonProduto" min="-2" pref="182" max="-2" attributes="0"/>
+                      <Component id="jButtonPedido" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                      <Component id="jButtonCliente" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                      <Component id="jButtonServicos" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                      <Component id="jButtonEspecie" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -199,22 +200,22 @@
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="5" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButtonLocar" min="-2" pref="44" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="jButtonDevolver" min="-2" pref="44" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="jButtonDevolver1" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="jButtonPedido" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="jButtonCliente" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="jButtonCliente1" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="jButtonServicos" min="-2" pref="44" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="jButtonProduto" min="-2" pref="44" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="jButtonEspecie" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButtonCliente">
+        <Component class="javax.swing.JButton" name="jButtonProduto">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -228,12 +229,12 @@
             <Property name="text" type="java.lang.String" value="Produtos"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClienteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProdutoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonLocar">
+        <Component class="javax.swing.JButton" name="jButtonPedido">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -247,10 +248,10 @@
             <Property name="text" type="java.lang.String" value="Pedido"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLocarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPedidoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonDevolver">
+        <Component class="javax.swing.JButton" name="jButtonCliente">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -264,7 +265,7 @@
             <Property name="text" type="java.lang.String" value="Cliente"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDevolverActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClienteActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -278,7 +279,7 @@
             <Property name="text" type="java.lang.String" value="MENU"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonDevolver1">
+        <Component class="javax.swing.JButton" name="jButtonServicos">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -292,10 +293,10 @@
             <Property name="text" type="java.lang.String" value="Servi&#xe7;os"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDevolver1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonServicosActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonCliente1">
+        <Component class="javax.swing.JButton" name="jButtonEspecie">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -309,7 +310,7 @@
             <Property name="text" type="java.lang.String" value="Especie"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCliente1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEspecieActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
