@@ -115,6 +115,10 @@ public class Animal {
     public void setEspecie(Especie especie) {
         this.especie = especie;
     }
+
+    public void setAnimal(Especie consultar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     
