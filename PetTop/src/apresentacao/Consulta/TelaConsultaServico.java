@@ -365,7 +365,7 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
 
             model.setNumRows(0);
             for (int pos = 0; pos < listaDeServico.size(); pos++) {
-                String[] saida = new String[3];
+                String[] saida = new String[4];
                 Servico aux = (Servico) listaDeServico.get(pos);
                 saida[0] = String.valueOf(aux.getCodigo());
                 saida[1] = aux.getDescricao();

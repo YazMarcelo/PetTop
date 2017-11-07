@@ -312,6 +312,8 @@ public class CadastroServico extends javax.swing.JFrame {
         jLabelAcao.setText(acao);
         this.idAlteracao = objServico.getCodigo();
         jTextFieldDescricao.setText(objServico.getDescricao());
+        jTextFieldValor.setText(String.valueOf(objServico.getValor()));
+        
     }
 
     public void limparCampos() {
