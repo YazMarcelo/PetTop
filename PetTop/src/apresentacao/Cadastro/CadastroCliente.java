@@ -52,6 +52,7 @@ public class CadastroCliente extends javax.swing.JFrame {
      */
     public CadastroCliente() {
         initComponents();
+        setResizable(false);
         setLocationRelativeTo(null);
 //        jComboBoxTelefone.setModel(new DefaultComboBoxModel(Cliente.TipoTelefone.values()));
     }

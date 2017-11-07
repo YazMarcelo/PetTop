@@ -28,6 +28,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
      */
     public CadastroAnimal() {
         initComponents();
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 
