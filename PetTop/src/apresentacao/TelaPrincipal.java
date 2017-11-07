@@ -278,6 +278,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.add(tcp);
         tcp.show();
         tce.dispose();
+        tcc.dispose();
+        tcp.dispose();
+        tcs.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonProdutoActionPerformed
 

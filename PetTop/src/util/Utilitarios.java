@@ -5,6 +5,7 @@
  */
 package util;
 
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.Date;
+import javax.swing.JTextField;
 
 /**
  *
@@ -89,6 +91,13 @@ public class Utilitarios {
             return true;
         } catch (DateTimeParseException e) {
             return false;
+        }
+    }
+
+    public static void someteNumeros(KeyEvent evt) {
+        String caracteres = "0987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
         }
     }
 
