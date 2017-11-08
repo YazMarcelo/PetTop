@@ -117,9 +117,9 @@ public class ProdutoDAO implements CRUD {
 
         if (rs.next()) {
             objeto.setCodigo(rs.getInt("prod_id"));
-            objeto.setDescricao(rs.getString("prod_descricao"));            
-            objeto.setSaldoEstoque(rs.getInt("prod_valor"));
-            objeto.setValor((rs.getDouble("prod_quantidade")));
+            objeto.setDescricao(rs.getString("prod_descricao"));         
+            objeto.setValor((rs.getDouble("prod_valor")));
+            objeto.setSaldoEstoque(rs.getInt("prod_quantidade"));
         }
 
         prd.execute();
