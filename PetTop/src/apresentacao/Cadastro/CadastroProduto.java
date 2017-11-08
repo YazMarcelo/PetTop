@@ -209,7 +209,7 @@ public class CadastroProduto extends javax.swing.JFrame {
 
             prod.setCodigo(idAlteracao);
             prod.setDescricao(jTDescricao.getText());
-
+            prod.setSaldoEstoque(Integer.parseInt(jFEstoque.getText()));
             prod.setValor(Double.parseDouble(jFValor.getText()));
 
             neg.salvar(prod);

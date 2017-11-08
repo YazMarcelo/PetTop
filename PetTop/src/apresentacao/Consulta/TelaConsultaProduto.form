@@ -169,7 +169,7 @@
                   <Table columnCount="4" rowCount="0">
                     <Column editable="true" title="Codigo" type="java.lang.Object"/>
                     <Column editable="true" title="Descricao" type="java.lang.Object"/>
-                    <Column editable="true" title="Valor" type="java.lang.Object"/>
+                    <Column editable="true" title="Valor R$" type="java.lang.Object"/>
                     <Column editable="true" title="Saldo Estoque" type="java.lang.Object"/>
                   </Table>
                 </Property>

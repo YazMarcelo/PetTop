@@ -111,7 +111,7 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Codigo", "Descricao", "Valor", "Saldo Estoque"
+                "Codigo", "Descricao", "Valor R$", "Saldo Estoque"
             }
         ));
         jScrollPane1.setViewportView(jTableProduto);
