@@ -6,14 +6,18 @@
 package apresentacao.Cadastro;
 
 import entidade.Cliente;
+import entidade.Especie;
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import static javax.swing.GroupLayout.Alignment.CENTER;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import negocio.NCliente;
+import negocio.NEspecie;
+import util.Mensagem;
 
 /**
  *
@@ -23,6 +27,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
     int esc;
     TableRowSorter trs;
     DefaultTableModel model = null;
+    Mensagem msg = new Mensagem();
     /**
      * Creates new form CadastroAnimal
      */
@@ -30,6 +35,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        adicionandoDadosComboBox();
     }
 
     /**
@@ -356,6 +362,12 @@ public class CadastroAnimal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (jTableAnimal.getSelectedRow() >= 0) {
+
+        } else {
+            msg.msg12();
+        }
+
 //
 //        if (jTableEspecie.getSelectedRow() >= 0) {
 //            int resposta = msg.msg03();
@@ -451,5 +463,19 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
         jLabelCliente.setText(clie.getNome());
         jLabelCliente.setAlignmentX(595 - (clie.getNome().length() / 2));
+    }
+        public void adicionandoDadosComboBox() {
+        try {
+            ArrayList<Object> listaDeEspecialidades;
+            NEspecie neg = new NEspecie();
+            listaDeEspecialidades = neg.listar();
+
+            for (Object objeto : listaDeEspecialidades) {
+                Especie objEspecie = (Especie) objeto;
+                jComboBoxEspecie.addItem(objEspecie);  
+        }
+        } catch (Exception ex) {
+
+        }
     }
 }
