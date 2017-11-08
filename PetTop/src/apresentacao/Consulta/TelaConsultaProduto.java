@@ -345,8 +345,9 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
                 Produto aux = (Produto) listaDeProdutos.get(pos);
                 saida[0] = String.valueOf(aux.getCodigo());
                 saida[1] = aux.getDescricao();
-                saida[2] = String.valueOf(aux.getSaldoEstoque());
                 saida[3] = String.valueOf(aux.getValor());
+                saida[4] = String.valueOf(aux.getSaldoEstoque());
+                
                 model.addRow(saida);
             }
         } catch (Exception erro) {
