@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import negocio.NProduto;
 import negocio.NServico;
 import persistencia.ServicoDAO;
 import util.Mensagem;
@@ -125,11 +126,12 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
         jTableServico.setShowVerticalLines(false);
         jScrollPane1.setViewportView(jTableServico);
         if (jTableServico.getColumnModel().getColumnCount() > 0) {
-            jTableServico.getColumnModel().getColumn(0).setMinWidth(45);
+            jTableServico.getColumnModel().getColumn(0).setResizable(false);
             jTableServico.getColumnModel().getColumn(0).setPreferredWidth(5);
-            jTableServico.getColumnModel().getColumn(0).setMaxWidth(45);
-            jTableServico.getColumnModel().getColumn(2).setMinWidth(80);
-            jTableServico.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTableServico.getColumnModel().getColumn(1).setResizable(false);
+            jTableServico.getColumnModel().getColumn(1).setPreferredWidth(125);
+            jTableServico.getColumnModel().getColumn(2).setResizable(false);
+            jTableServico.getColumnModel().getColumn(2).setPreferredWidth(20);
         }
 
         jButtonAlterar.setBackground(new java.awt.Color(0, 136, 204));
@@ -260,32 +262,31 @@ public class TelaConsultaServico extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoServicoActionPerformed
 
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
-        try {
             atualizar();
-        } catch (Exception ex) {
-            Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         if (jTableServico.getSelectedRow() >= 0){
-            int resposta  = JOptionPane.showConfirmDialog(rootPane, "Excluir Serviço?");
+            int resposta  = msg.msg03();
             if(resposta == JOptionPane.YES_OPTION){
         try {
-            
-            String id = (String)jTableServico.getValueAt(jTableServico.getSelectedRow(), 1);
-            ServicoDAO dao = new ServicoDAO();
-            dao.excluir(id);
-            model.removeRow(jTableServico.getSelectedRow());
-            jTableServico.setModel(model);
-        
-        }  catch (Exception ex) {
+
+                    String id = (String) jTableServico.getValueAt(jTableServico.getSelectedRow(), 0);
+                    
+                    NServico servi = new NServico();
+                    servi.excluir(id);
+
+                    model.removeRow(jTableServico.getSelectedRow());
+                    jTableServico.setModel(model);
+
+                    msg.msg05();
+                } catch (Exception ex) {
                     Logger.getLogger(TelaConsultaServico.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {
             msg.msg12();
-        } 
+        }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed

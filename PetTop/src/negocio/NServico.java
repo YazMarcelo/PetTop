@@ -62,9 +62,8 @@ public class NServico {
         if (servico.getDescricao().equals("")) {
             return false;
         }
-        if (servico.getValor() == 0) {
+        if (servico.getValor() < 1) {
             return false;
-            
         }
 
         return true;
