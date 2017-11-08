@@ -35,13 +35,14 @@ import util.Utilitarios;
  * @author aluno
  */
 public class TelaConsultaCliente extends javax.swing.JInternalFrame {
+
     DefaultTableModel model = null;
     TableRowSorter trs;
     int esc;
     CadastroCliente tcc;
     CadastroAnimal tca;
     Mensagem msg = new Mensagem();
-    
+
     /**
      * Creates new form TelaConsultaVeículo
      */
@@ -278,7 +279,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    atualizar();
+        atualizar();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -306,7 +307,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-if (jTableCliente.getSelectedRow() >= 0) {
+        if (jTableCliente.getSelectedRow() >= 0) {
             try {
                 tcc = new CadastroCliente();
                 tcc.atualizarAposSalvar(this);
@@ -336,14 +337,20 @@ if (jTableCliente.getSelectedRow() >= 0) {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Nome")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 0; 
-        if(jComboBox1.getSelectedItem().equals("CNH")) esc = 1; 
-        if(jComboBox1.getSelectedItem().equals("Email")) esc = 2; 
+        if (jComboBox1.getSelectedItem().equals("Nome") || jComboBox1.getSelectedItem().equals("Selecione...")) {
+            esc = 0;
+        }
+        if (jComboBox1.getSelectedItem().equals("CNH")) {
+            esc = 1;
+        }
+        if (jComboBox1.getSelectedItem().equals("Email")) {
+            esc = 2;
+        }
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)"+jTextFieldPesquisar1.getText(),esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
@@ -351,13 +358,19 @@ if (jTableCliente.getSelectedRow() >= 0) {
     }//GEN-LAST:event_jTextFieldPesquisar1KeyTyped
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        tca = new CadastroAnimal();
-        try {
-            tca.settarCliente((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
-        } catch (Exception ex) {
-            Logger.getLogger(TelaConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        if (jTableCliente.getSelectedRow() >= 0) {
+            tca = new CadastroAnimal();
+            try {
+                tca.settarCliente((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
+            } catch (Exception ex) {
+                Logger.getLogger(TelaConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tca.setVisible(true);
+        } else {
+            msg.msg12();
         }
-        tca.setVisible(true);
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
@@ -400,12 +413,13 @@ if (jTableCliente.getSelectedRow() >= 0) {
             JOptionPane.showMessageDialog(this, erro.getMessage());
         }
     }
-    public void atualizaAposFechar(){
-    tcc.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            atualizar();
-        }
-    });  
-}
+
+    public void atualizaAposFechar() {
+        tcc.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                atualizar();
+            }
+        });
+    }
 
 }

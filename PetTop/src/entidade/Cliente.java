@@ -18,6 +18,7 @@ public class Cliente {
      private String cpf = "";
      private Date dataNascimento;
      private String telefone = "";
+     private String tipoTelefone = "";
      private String bairro = "";
      private String logradouro = "";
      private String numero = "";
@@ -26,7 +27,7 @@ public class Cliente {
      
      
      
-
+    
     public String getNome() {
         return nome;
     }
@@ -113,6 +114,14 @@ public class Cliente {
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
+    }
+
+    public String getTipoTelefone() {
+        return tipoTelefone;
+    }
+
+    public void setTipoTelefone(String tipoTelefone) {
+        this.tipoTelefone = tipoTelefone;
     }
      
      

@@ -37,7 +37,7 @@ public class Mensagem {
         JOptionPane.showMessageDialog(null, "Exclusão Efetuada com Sucesso!", "Mensagem do Sistema", 1);
     }
     public void msg06(){
-        JOptionPane.showMessageDialog(null, "Dados Incorretos!", "Mensagem do Sistema", 0);
+        JOptionPane.showMessageDialog(null, "Dado Inválido!", "Mensagem do Sistema", 0);
     }
     public void msg07(){
         JOptionPane.showMessageDialog(null, "Perfil Inválido! Verifique os dados digitados.", "Mensagem do Sistema", 0);

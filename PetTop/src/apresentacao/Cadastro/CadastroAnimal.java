@@ -6,14 +6,18 @@
 package apresentacao.Cadastro;
 
 import entidade.Cliente;
+import entidade.Especie;
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import static javax.swing.GroupLayout.Alignment.CENTER;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import negocio.NCliente;
+import negocio.NEspecie;
+import util.Mensagem;
 
 /**
  *
@@ -23,6 +27,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
     int esc;
     TableRowSorter trs;
     DefaultTableModel model = null;
+    Mensagem msg = new Mensagem();
     /**
      * Creates new form CadastroAnimal
      */
@@ -30,6 +35,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        adicionandoDadosComboBox();
     }
 
     /**
@@ -56,7 +62,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBoxEspecie = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jTextFieldPesquisar1 = new javax.swing.JTextField();
@@ -111,7 +117,6 @@ public class CadastroAnimal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableAnimal.setPreferredSize(new java.awt.Dimension(375, 0));
         jScrollPane1.setViewportView(jTableAnimal);
         if (jTableAnimal.getColumnModel().getColumnCount() > 0) {
             jTableAnimal.getColumnModel().getColumn(0).setResizable(false);
@@ -137,8 +142,6 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jLabel6.setText("Porte");
 
         jLabel7.setText("Espécie");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel8.setText("Filtro");
 
@@ -235,7 +238,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
                                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
                         .addComponent(jButton4)
@@ -274,7 +277,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
@@ -322,14 +325,20 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Nome")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 0;
-        if(jComboBox1.getSelectedItem().equals("CNH")) esc = 1;
-        if(jComboBox1.getSelectedItem().equals("Email")) esc = 2;
+        if (jComboBox1.getSelectedItem().equals("Nome") || jComboBox1.getSelectedItem().equals("Selecione...")) {
+            esc = 0;
+        }
+        if (jComboBox1.getSelectedItem().equals("CNH")) {
+            esc = 1;
+        }
+        if (jComboBox1.getSelectedItem().equals("Email")) {
+            esc = 2;
+        }
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)"+jTextFieldPesquisar1.getText(),esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
@@ -353,6 +362,12 @@ public class CadastroAnimal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (jTableAnimal.getSelectedRow() >= 0) {
+
+        } else {
+            msg.msg12();
+        }
+
 //
 //        if (jTableEspecie.getSelectedRow() >= 0) {
 //            int resposta = msg.msg03();
@@ -421,8 +436,8 @@ public class CadastroAnimal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox jComboBoxEspecie;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -441,12 +456,26 @@ public class CadastroAnimal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNome2;
     private javax.swing.JTextField jTextFieldPesquisar1;
     // End of variables declaration//GEN-END:variables
-    public void settarCliente(String id) throws Exception{
+    public void settarCliente(String id) throws Exception {
         NCliente negClie = new NCliente();
         Cliente clie = new Cliente();
         clie = negClie.consultar(id);
-        
+
         jLabelCliente.setText(clie.getNome());
-        jLabelCliente.setAlignmentX(595 - (clie.getNome().length()/2));
+        jLabelCliente.setAlignmentX(595 - (clie.getNome().length() / 2));
+    }
+        public void adicionandoDadosComboBox() {
+        try {
+            ArrayList<Object> listaDeEspecialidades;
+            NEspecie neg = new NEspecie();
+            listaDeEspecialidades = neg.listar();
+
+            for (Object objeto : listaDeEspecialidades) {
+                Especie objEspecie = (Especie) objeto;
+                jComboBoxEspecie.addItem(objEspecie);  
+        }
+        } catch (Exception ex) {
+
+        }
     }
 }

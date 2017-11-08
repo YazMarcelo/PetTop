@@ -22,7 +22,8 @@ import javax.swing.JTextField;
  */
 public class Utilitarios {
 
-    public boolean validarCPF(String strCpf) {
+    public static boolean validarCPF(String strCpf) {
+        strCpf = retirarMascara(strCpf);
         int d1, d2;
         int digito1, digito2, resto;
         int digitoCPF;
@@ -93,12 +94,35 @@ public class Utilitarios {
             return false;
         }
     }
+    
+    public static String retirarMascara(String stg){
+        stg = stg.replace(" ", "");
+        stg = stg.replace("-", "");
+        stg = stg.replace(".", "");
+        stg = stg.replace("(", "");
+        stg = stg.replace(")", "");
+        stg = stg.replace("/", "");
+        stg = stg.replace(")", "");
+        
+        return stg;
+    }
 
     public static void someteNumeros(KeyEvent evt) {
         String caracteres = "0987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
+    }
+    
+    public static boolean validarData(){
+                String s = "31/02/2009";
+        DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+        try {
+            System.out.println(df.parse (s));
+        } catch (ParseException ex) {
+           System.out.println(ex);
+        }
+        return true;
     }
 
 }
