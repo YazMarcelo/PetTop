@@ -309,7 +309,7 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);

@@ -200,7 +200,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtro");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Nome", "CNH", "Email" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "Nome", "CPF", "Telefone", "Data Nascimento" }));
 
         jButton4.setBackground(new java.awt.Color(0, 0, 0));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -337,20 +337,31 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if (jComboBox1.getSelectedItem().equals("Nome") || jComboBox1.getSelectedItem().equals("Selecione...")) {
-            esc = 0;
-        }
-        if (jComboBox1.getSelectedItem().equals("CNH")) {
-            esc = 1;
-        }
-        if (jComboBox1.getSelectedItem().equals("Email")) {
-            esc = 2;
+        
+                String selecionado = (String) jComboBox1.getSelectedItem();
+
+        switch (selecionado) {
+            case "Código":
+                esc = 0;
+                break;
+            case "Nome":
+                esc = 1;
+                break;
+            case "CPF":
+                esc = 2;
+                break;
+            case "Telefone":
+                esc = 3;
+                break;
+            case "Data Nascimento":
+                esc = 4;
+                break;
         }
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);

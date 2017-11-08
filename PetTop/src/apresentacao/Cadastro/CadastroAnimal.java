@@ -5,29 +5,38 @@
  */
 package apresentacao.Cadastro;
 
+import entidade.Animal;
 import entidade.Cliente;
 import entidade.Especie;
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javax.swing.GroupLayout.Alignment.CENTER;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import negocio.NCliente;
 import negocio.NEspecie;
 import util.Mensagem;
+import util.Utilitarios;
 
 /**
  *
  * @author HELM
  */
 public class CadastroAnimal extends javax.swing.JFrame {
+
     int esc;
     TableRowSorter trs;
     DefaultTableModel model = null;
     Mensagem msg = new Mensagem();
+    String idCliente;
+    int idAlteracao;
+
     /**
      * Creates new form CadastroAnimal
      */
@@ -54,21 +63,21 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAnimal = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldNome = new javax.swing.JTextField();
+        jTextFieldRGA = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextFieldNome1 = new javax.swing.JTextField();
+        jTextFieldNome = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextFieldNome2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextFieldRaca = new javax.swing.JTextField();
+        jComboBoxPorte = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jComboBoxEspecie = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jTextFieldPesquisar1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButtonAlterar = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
         jLabelCliente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -106,38 +115,49 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "RGA", "Nome", "Raça", "Porte", "Espécie"
+                "Código", "RGA", "Nome", "Raça", "Porte", "Espécie"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTableAnimal.setMinimumSize(new java.awt.Dimension(90, 0));
+        jTableAnimal.setName(""); // NOI18N
+        jTableAnimal.setPreferredSize(new java.awt.Dimension(450, 0));
         jScrollPane1.setViewportView(jTableAnimal);
         if (jTableAnimal.getColumnModel().getColumnCount() > 0) {
             jTableAnimal.getColumnModel().getColumn(0).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(0).setPreferredWidth(18);
+            jTableAnimal.getColumnModel().getColumn(0).setPreferredWidth(10);
             jTableAnimal.getColumnModel().getColumn(1).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(1).setPreferredWidth(70);
+            jTableAnimal.getColumnModel().getColumn(1).setPreferredWidth(30);
             jTableAnimal.getColumnModel().getColumn(2).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(2).setPreferredWidth(35);
+            jTableAnimal.getColumnModel().getColumn(2).setPreferredWidth(250);
             jTableAnimal.getColumnModel().getColumn(3).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(3).setPreferredWidth(35);
+            jTableAnimal.getColumnModel().getColumn(3).setPreferredWidth(50);
             jTableAnimal.getColumnModel().getColumn(4).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(4).setPreferredWidth(35);
+            jTableAnimal.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTableAnimal.getColumnModel().getColumn(5).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(5).setPreferredWidth(60);
         }
 
         jLabel3.setText("RGA");
+
+        jTextFieldRGA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldRGAKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Nome*");
 
         jLabel5.setText("Raça");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Médio", "Pequeno" }));
+        jComboBoxPorte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Médio", "Pequeno" }));
 
         jLabel6.setText("Porte");
 
@@ -145,7 +165,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
         jLabel8.setText("Filtro");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Nome", "CNH", "Email" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "RGA", "Nome", "Raça", "Porte", "Espécie" }));
 
         jTextFieldPesquisar1.setForeground(new java.awt.Color(204, 204, 204));
         jTextFieldPesquisar1.setText("Procurar...");
@@ -168,33 +188,33 @@ public class CadastroAnimal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 136, 204));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Alterar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAlterar.setBackground(new java.awt.Color(0, 136, 204));
+        jButtonAlterar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonAlterar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonAlterarActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(210, 50, 45));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Excluir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonExcluir.setBackground(new java.awt.Color(210, 50, 45));
+        jButtonExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonExcluirActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(0, 136, 204));
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Salvar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalvar.setBackground(new java.awt.Color(0, 136, 204));
+        jButtonSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonSalvar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonSalvarActionPerformed(evt);
             }
         });
 
@@ -220,34 +240,34 @@ public class CadastroAnimal extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelEspecieLayout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jComboBoxPorte, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelEspecieLayout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jTextFieldRGA, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextFieldNome1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextFieldNome2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTextFieldRaca, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(jButtonSalvar)
                         .addGap(10, 10, 10)
                         .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(jButtonAlterar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3)
+                                .addComponent(jButtonExcluir)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
@@ -266,16 +286,16 @@ public class CadastroAnimal extends javax.swing.JFrame {
                     .addComponent(jLabelCliente))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldRGA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextFieldNome2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldRaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxPorte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -289,9 +309,9 @@ public class CadastroAnimal extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
                         .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))
+                            .addComponent(jButtonAlterar)
+                            .addComponent(jButtonExcluir)
+                            .addComponent(jButtonSalvar))
                         .addGap(5, 5, 5)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -325,45 +345,82 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if (jComboBox1.getSelectedItem().equals("Nome") || jComboBox1.getSelectedItem().equals("Selecione...")) {
-            esc = 0;
+
+        String selecionado = (String) jComboBox3.getSelectedItem();
+
+        switch (selecionado) {
+            case "Nome":
+                esc = 2;
+                break;
+            case "Código":
+                esc = 0;
+                break;
+            case "RGA":
+                esc = 1;
+                break;
+            case "Raça":
+                esc = 3;
+                break;
+            case "Porte":
+                esc = 4;
+                break;
+            case "Espécie":
+                esc = 5;
+                break;
         }
-        if (jComboBox1.getSelectedItem().equals("CNH")) {
-            esc = 1;
-        }
-        if (jComboBox1.getSelectedItem().equals("Email")) {
-            esc = 2;
-        }
+
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?)i" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
         jTableAnimal.setRowSorter(trs);
     }//GEN-LAST:event_jTextFieldPesquisar1KeyTyped
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        if (jTableEspecie.getSelectedRow() >= 0) {
-//            try {
-//                tce = new CadastroEspecie();
-//                tce.atualizarAposSalvar(this);
-//                tce.alteracao("Alterar Especie", (String) jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0));
-//                tce.setVisible(true);
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } else {
-//            msg.msg12();
-//        }
-//        atualizaAposFechar();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
         if (jTableAnimal.getSelectedRow() >= 0) {
+            String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
 
+            //NAnimal neg = new NAnimal();
+            //Animal anim = (Animal) neg.consultar(id);
+            Animal anim = new Animal();
+
+            this.idAlteracao = anim.getCodigo();
+
+            jTextFieldRGA.setText(anim.getRga());
+            jTextFieldNome.setText(anim.getNome());
+            jTextFieldRaca.setText(anim.getRaca());
+
+            jComboBoxPorte.setSelectedItem(anim.getPorteDoAnimal());
+            jComboBoxEspecie.setSelectedItem(anim.getEspecie());
+
+        } else {
+            msg.msg12();
+        }
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (jTableAnimal.getSelectedRow() >= 0) {
+            int resposta = msg.msg03();
+
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+
+                    String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
+
+                    //NAnimal neg = new NAnimal();
+                    //neg.excluir(id);
+                    model.removeRow(jTableAnimal.getSelectedRow());
+                    jTableAnimal.setModel(model);
+
+                    msg.msg05();
+                } catch (Exception ex) {
+                    Logger.getLogger(CadastroAnimal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } else {
             msg.msg12();
         }
@@ -390,11 +447,37 @@ public class CadastroAnimal extends javax.swing.JFrame {
 //        } else {
 //            msg.msg12();
 //        }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        try {
+
+            Animal anim = new Animal();
+            //NAnimal neg = new NAnimal();
+
+            anim.setCodigo(idAlteracao);
+            anim.setNome(jTextFieldNome.getText());
+            anim.setRga(jTextFieldRGA.getText());
+            anim.setRaca(jTextFieldRaca.getText());
+            anim.setPorteDoAnimal(jComboBoxPorte.getSelectedItem().toString());
+            anim.setCliente(new NCliente().consultar(idCliente));
+            anim.setEspecie((Especie) jComboBoxEspecie.getSelectedItem());
+            //neg.salvar(anim);
+
+            if (idAlteracao > 0) {
+                //aux.atualizar();
+            } else {
+                //limparCampos();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jTextFieldRGAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRGAKeyTyped
+        Utilitarios.someteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldRGAKeyTyped
 
     /**
      * @param args the command line arguments
@@ -432,12 +515,12 @@ public class CadastroAnimal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButtonAlterar;
+    private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox jComboBoxEspecie;
+    private javax.swing.JComboBox<String> jComboBoxPorte;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -452,11 +535,12 @@ public class CadastroAnimal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableAnimal;
     private javax.swing.JTextField jTextFieldNome;
-    private javax.swing.JTextField jTextFieldNome1;
-    private javax.swing.JTextField jTextFieldNome2;
     private javax.swing.JTextField jTextFieldPesquisar1;
+    private javax.swing.JTextField jTextFieldRGA;
+    private javax.swing.JTextField jTextFieldRaca;
     // End of variables declaration//GEN-END:variables
     public void settarCliente(String id) throws Exception {
+        idCliente = id;
         NCliente negClie = new NCliente();
         Cliente clie = new Cliente();
         clie = negClie.consultar(id);
@@ -464,7 +548,8 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jLabelCliente.setText(clie.getNome());
         jLabelCliente.setAlignmentX(595 - (clie.getNome().length() / 2));
     }
-        public void adicionandoDadosComboBox() {
+
+    public void adicionandoDadosComboBox() {
         try {
             ArrayList<Object> listaDeEspecialidades;
             NEspecie neg = new NEspecie();
@@ -472,8 +557,8 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
             for (Object objeto : listaDeEspecialidades) {
                 Especie objEspecie = (Especie) objeto;
-                jComboBoxEspecie.addItem(objEspecie);  
-        }
+                jComboBoxEspecie.addItem(objEspecie);
+            }
         } catch (Exception ex) {
 
         }
