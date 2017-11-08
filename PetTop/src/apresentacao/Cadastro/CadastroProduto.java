@@ -7,11 +7,9 @@ package apresentacao.Cadastro;
 
 import apresentacao.Consulta.TelaConsultaProduto;
 import entidade.Produto;
-import static java.awt.SystemColor.text;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import negocio.NProduto;
 
 
