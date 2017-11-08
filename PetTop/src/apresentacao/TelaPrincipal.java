@@ -293,7 +293,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tp.setLocation(182, 36);
         this.add(tp);
         tp.show();
-        
+        tce.dispose();
+        tcp.dispose();
+        tcs.dispose();
+        tcc.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonPedidoActionPerformed
 
@@ -304,17 +307,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tce.dispose();
         tcp.dispose();
         tcs.dispose();
-
-
-//        telaDevolucao.setLocation(182, 36);
-//       /*this.*/ this.add(telaDevolucao);
-//        telaDevolucao.show();
-//        telaCliente.dispose();
-//        telaMarca.dispose();
-//        telaModelo.dispose();
-//        telaVeiculo.dispose();
-//        telaLocar.dispose();
-//        tcd.dispose();
+        tp.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonClienteActionPerformed
 
@@ -325,6 +318,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tcp.dispose();
         tcc.dispose();
         tce.dispose();
+        tp.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonServicosActionPerformed
 
@@ -335,6 +329,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tcc.dispose();
         tcp.dispose();
         tcs.dispose();
+        tp.dispose();
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonEspecieActionPerformed
 
