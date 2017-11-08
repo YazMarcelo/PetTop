@@ -26,7 +26,7 @@ public class ClienteDAO implements CRUD{
         Cliente objCliente = (Cliente)(objeto);
         
         String sql = "insert into cliente (clie_nome, clie_rg, clie_cpf, clie_data_nascimento,"
-                + " clie_telefone, clie_bairro, clie_cep, clie_logradouro, clie_numero, clie_complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + " clie_telefone, clie_bairro, clie_cep, clie_logradouro, clie_numero, clie_complemento, clie_tipo_telefone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         Connection cnn = util.Conexao.getConexao();
 
@@ -43,6 +43,7 @@ public class ClienteDAO implements CRUD{
         prd.setString(8, objCliente.getLogradouro());
         prd.setString(9, objCliente.getNumero());
         prd.setString(10, objCliente.getComplemento());
+        prd.setString(11, objCliente.getTipoTelefone());
 
 
         //Executa o comando no banco de dados
@@ -96,7 +97,8 @@ public class ClienteDAO implements CRUD{
                 + "clie_cep = ?, "
                 + "clie_logradouro = ?, "
                 + "clie_numero = ?, "
-                + "clie_complemento = ? "
+                + "clie_complemento = ? ,"
+                + "clie_tipo_telefone = ?"
                 + " where clie_id = ?;";
 
         Connection cnn = util.Conexao.getConexao();
@@ -116,7 +118,8 @@ public class ClienteDAO implements CRUD{
         prd.setString(8, objCliente.getLogradouro());
         prd.setString(9, objCliente.getNumero());
         prd.setString(10, objCliente.getComplemento());
-        prd.setInt(11, objCliente.getCodigo());
+        prd.setString(11, objCliente.getTipoTelefone());
+        prd.setInt(12, objCliente.getCodigo());
 
         prd.execute();
 
@@ -153,6 +156,7 @@ public class ClienteDAO implements CRUD{
             objeto.setNumero(rs.getString("clie_numero"));
             objeto.setComplemento(rs.getString("clie_complemento"));
             objeto.setCep(rs.getString("clie_cep"));
+            objeto.setTipoTelefone(rs.getString("clie_tipo_telefone"));
         }
 
         prd.execute();
@@ -188,6 +192,7 @@ public class ClienteDAO implements CRUD{
             objeto.setLogradouro(rs.getString("clie_logradouro"));
             objeto.setNumero(rs.getString("clie_numero"));
             objeto.setComplemento(rs.getString("clie_complemento"));
+            objeto.setTipoTelefone(rs.getString("clie_tipo_telefone"));
             
             listaEspecie.add(objeto);
         }

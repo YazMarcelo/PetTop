@@ -35,6 +35,7 @@ import javax.swing.text.MaskFormatter;
 import negocio.NCliente;
 import negocio.NEspecie;
 import persistencia.ClienteDAO;
+import util.Mensagem;
 import util.Utilitarios;
 
 /**
@@ -46,15 +47,16 @@ public class CadastroCliente extends javax.swing.JFrame {
     int idAlteracao;
     TelaConsultaCliente aux;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    Mensagem msg = new Mensagem();
 
     /**
      * Creates new form CadastroMarca
      */
     public CadastroCliente() {
         initComponents();
+        validacaoTef1();
         setResizable(false);
         setLocationRelativeTo(null);
-//        jComboBoxTelefone.setModel(new DefaultComboBoxModel(Cliente.TipoTelefone.values()));
     }
 
     /**
@@ -184,6 +186,9 @@ public class CadastroCliente extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         jFormattedTextFieldCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldCPFKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jFormattedTextFieldCPFKeyTyped(evt);
             }
@@ -257,18 +262,13 @@ public class CadastroCliente extends javax.swing.JFrame {
                                                 .addComponent(jFormattedTextFieldTef1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(jTextFieldNome)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel2))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel1))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(269, 269, 269))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
@@ -389,6 +389,19 @@ public class CadastroCliente extends javax.swing.JFrame {
             clie.setNumero(jTextFieldNumero.getText());
             clie.setComplemento(jTextFieldComp.getText());
 
+            String tipoTef = jComboBoxTipoTel1.getSelectedItem().toString();
+            if ((jFormattedTextFieldTef1.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "")).equals("")) {
+                tipoTef = null;
+            } else if (tipoTef.equals("TRABALHO")) {
+                tipoTef = "t";
+            } else if (tipoTef.equals("RESIDENCIAL")) {
+                tipoTef = "r";
+            } else if (tipoTef.equals("CELULAR")) {
+                tipoTef = "c";
+            }
+
+            clie.setTipoTelefone(tipoTef);
+
             neg.salvar(clie);
 
             if (neg.obrigatoriosPreenchidos(clie)) {
@@ -424,15 +437,31 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void jFormattedTextFieldCPFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCPFKeyTyped
         Utilitarios.someteNumeros(evt);
+        if (Utilitarios.retirarMascara(jFormattedTextFieldCPF.getText()).length() == 11) {
+            if (Utilitarios.validarCPF(Utilitarios.retirarMascara(jFormattedTextFieldCPF.getText()))) {
+                msg.msg06();
+                jFormattedTextFieldCPF.setText("");
+            }
+        }
     }//GEN-LAST:event_jFormattedTextFieldCPFKeyTyped
 
     private void jFormattedTextFieldDataNascKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDataNascKeyTyped
         Utilitarios.someteNumeros(evt);
+        if (Utilitarios.retirarMascara(jFormattedTextFieldDataNasc.getText()).length() == 8) {
+            if (!(Utilitarios.isDateValid(Utilitarios.retirarMascara(jFormattedTextFieldDataNasc.getText())))) {
+                msg.msg06();
+                jFormattedTextFieldDataNasc.setText("");
+            }
+        }
     }//GEN-LAST:event_jFormattedTextFieldDataNascKeyTyped
 
     private void jFormattedTextFieldTef1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldTef1KeyTyped
         Utilitarios.someteNumeros(evt);
     }//GEN-LAST:event_jFormattedTextFieldTef1KeyTyped
+
+    private void jFormattedTextFieldCPFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCPFKeyPressed
+
+    }//GEN-LAST:event_jFormattedTextFieldCPFKeyPressed
 
     /**
      * @param args the command line arguments
@@ -524,6 +553,24 @@ public class CadastroCliente extends javax.swing.JFrame {
         jFormattedTextFieldCPF.setText(objCliente.getCpf());
 
         String dateFormated = Utilitarios.dateBRFormat(String.valueOf(objCliente.getDataNascimento()));
+
+        String tipoTef = objCliente.getTipoTelefone();
+        if (null == tipoTef) {
+            jComboBoxTipoTel1.setSelectedItem("TRABALHO");
+        } else switch (tipoTef) {
+            case "t":
+                jComboBoxTipoTel1.setSelectedItem("TRABALHO");
+                break;
+            case "r":
+                jComboBoxTipoTel1.setSelectedItem("RESIDENCIAL");
+                break;
+            case "c":
+                jComboBoxTipoTel1.setSelectedItem("CELULAR");
+                break;
+            default:
+                jComboBoxTipoTel1.setSelectedItem("TRABALHO");
+                break;
+        }
 
         jFormattedTextFieldDataNasc.setText(dateFormated);
         jFormattedTextFieldTef1.setText(objCliente.getTelefone());
