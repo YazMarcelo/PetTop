@@ -190,22 +190,16 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
     public ArrayList<Object> listarPorCliente(String idCliente) throws Exception {
         ArrayList<Object> listaAnimal = new ArrayList<>();
         
-        String sql = "select * from animal where anim_clie_id = ? orde by anim_id;";
+        String sql = "select * from animal where anim_clie_id = "+idCliente+" order by anim_id;";
 
         Connection cnn = util.Conexao.getConexao();
-
-        //Cria o procedimento armazenado a partir da conexão
-        //e string sql
-        PreparedStatement prd = cnn.prepareStatement(sql);
-
-        //Seta os valores para o procedimento
-        prd.setInt(1, Integer.parseInt(idCliente));
-
-        ResultSet rs = prd.executeQuery();
-
+        Statement stm = cnn.createStatement();
+        ResultSet rs = stm.executeQuery(sql);
+        
+        Animal objeto;
 
         while (rs.next()) {
-        Animal objeto = new Animal();
+        objeto = new Animal();
             objeto.setCodigo(rs.getInt("anim_id"));
             objeto.setNome(rs.getString("anim_nome"));
             objeto.setRga(rs.getString("anim_rga"));
@@ -216,9 +210,8 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
             listaAnimal.add(objeto);
         }
 
-        prd.execute();
 
-        prd.close();
+        rs.close();
         cnn.close();
 
         return listaAnimal;  

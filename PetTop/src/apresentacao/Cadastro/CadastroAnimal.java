@@ -61,8 +61,6 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabelAcao = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableAnimal = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldRGA = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -80,6 +78,8 @@ public class CadastroAnimal extends javax.swing.JFrame {
         jButtonExcluir = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jLabelCliente = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableAnimal = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,41 +110,6 @@ public class CadastroAnimal extends javax.swing.JFrame {
                 .addComponent(jLabelAcao)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
-
-        jTableAnimal.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Código", "RGA", "Nome", "Raça", "Porte", "Espécie"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTableAnimal.setMinimumSize(new java.awt.Dimension(90, 0));
-        jTableAnimal.setName(""); // NOI18N
-        jTableAnimal.setPreferredSize(new java.awt.Dimension(450, 0));
-        jScrollPane1.setViewportView(jTableAnimal);
-        if (jTableAnimal.getColumnModel().getColumnCount() > 0) {
-            jTableAnimal.getColumnModel().getColumn(0).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTableAnimal.getColumnModel().getColumn(1).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(1).setPreferredWidth(30);
-            jTableAnimal.getColumnModel().getColumn(2).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(2).setPreferredWidth(250);
-            jTableAnimal.getColumnModel().getColumn(3).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(3).setPreferredWidth(50);
-            jTableAnimal.getColumnModel().getColumn(4).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(4).setPreferredWidth(50);
-            jTableAnimal.getColumnModel().getColumn(5).setResizable(false);
-            jTableAnimal.getColumnModel().getColumn(5).setPreferredWidth(60);
-        }
 
         jLabel3.setText("RGA");
 
@@ -221,21 +186,70 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
         jLabelCliente.setText("jLabel1");
 
+        jTableAnimal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "RGA", "Nome", "Raça", "Porte", "Espécie"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableAnimal);
+        if (jTableAnimal.getColumnModel().getColumnCount() > 0) {
+            jTableAnimal.getColumnModel().getColumn(0).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTableAnimal.getColumnModel().getColumn(1).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(1).setPreferredWidth(30);
+            jTableAnimal.getColumnModel().getColumn(2).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(2).setPreferredWidth(250);
+            jTableAnimal.getColumnModel().getColumn(3).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jTableAnimal.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTableAnimal.getColumnModel().getColumn(5).setResizable(false);
+            jTableAnimal.getColumnModel().getColumn(5).setPreferredWidth(60);
+        }
+
         javax.swing.GroupLayout jPanelEspecieLayout = new javax.swing.GroupLayout(jPanelEspecie);
         jPanelEspecie.setLayout(jPanelEspecieLayout);
         jPanelEspecieLayout.setHorizontalGroup(
             jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelEspecieLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
+                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelEspecieLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelEspecieLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
+                                .addComponent(jButtonSalvar)
+                                .addGap(10, 10, 10)
+                                .addComponent(jButtonAlterar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonExcluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelEspecieLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelEspecieLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(366, 366, 366)
                                 .addComponent(jLabelCliente))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelEspecieLayout.createSequentialGroup()
                                 .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelEspecieLayout.createSequentialGroup()
@@ -260,21 +274,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
-                        .addComponent(jButtonSalvar)
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
-                                .addComponent(jButtonAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEspecieLayout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 93, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelEspecieLayout.setVerticalGroup(
@@ -299,23 +299,19 @@ public class CadastroAnimal extends javax.swing.JFrame {
                     .addComponent(jComboBoxPorte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBoxEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
-                        .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanelEspecieLayout.createSequentialGroup()
-                        .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonAlterar)
-                            .addComponent(jButtonExcluir)
-                            .addComponent(jButtonSalvar))
-                        .addGap(5, 5, 5)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAlterar)
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonSalvar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -518,13 +514,14 @@ public class CadastroAnimal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     public void settarCliente(String id) throws Exception {
         idCliente = id;
+        atualizar();
         NCliente negClie = new NCliente();
         Cliente clie = new Cliente();
         clie = negClie.consultar(id);
 
         jLabelCliente.setText(clie.getNome());
         jLabelCliente.setAlignmentX(595 - (clie.getNome().length() / 2));
-        atualizar();
+        
     }
 
     public void adicionandoDadosComboBox() {
