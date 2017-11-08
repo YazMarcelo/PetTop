@@ -44,6 +44,21 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
         prd.setInt(6, objAnimal.getEspecie().getCodigo());
 
         prd.execute();
+        
+                //cria o sql para recuperar o codigo gerado
+        String sql2 = "select currval('animal_anim_id_seq') as anim_id";
+
+        Statement stm = cnn.createStatement();
+
+        ResultSet rs = stm.executeQuery(sql2);
+
+        if (rs.next()) {
+            int codigo = rs.getInt("anim_id");
+            objAnimal.setCodigo(codigo);
+        }
+
+        rs.close();
+        cnn.close();
 
     }//<--
 
@@ -146,7 +161,7 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
         
         ArrayList<Object> listaEspecie = new ArrayList<>();
 
-        String sql = "select * from especie order by anim_id";
+        String sql = "select * from animal order by anim_id";
 
         Connection cnn = util.Conexao.getConexao();
         Statement stm = cnn.createStatement();
@@ -162,7 +177,41 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
             objeto.setRaca(rs.getString("anim_raca"));
             objeto.setPorteDoAnimal(rs.getString("anim_porte_animal"));
             objeto.setCliente(new NCliente().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
-            objeto.setAnimal(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
+            objeto.setEspecie(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
+            listaEspecie.add(objeto);
+        }
+
+        rs.close();
+        cnn.close();
+
+        return listaEspecie;
+    }
+    
+    public ArrayList<Object> listarPorCliente(String idCliente) throws Exception {
+        
+        ArrayList<Object> listaEspecie = new ArrayList<>();
+
+        String sql = "select * from animal where anim_clie_id = ? order by anim_id";
+
+        Connection cnn = util.Conexao.getConexao();
+         PreparedStatement prd = cnn.prepareStatement(sql);
+
+        //Seta os valores para o procedimento
+        prd.setInt(1, Integer.parseInt(idCliente));
+        
+        ResultSet rs = prd.executeQuery(sql);
+
+        Animal objeto;
+
+        while (rs.next()) {
+            objeto = new Animal();
+            objeto.setCodigo(rs.getInt("anim_id"));
+            objeto.setNome(rs.getString("anim_nome"));
+            objeto.setRga(rs.getString("anim_rga"));
+            objeto.setRaca(rs.getString("anim_raca"));
+            objeto.setPorteDoAnimal(rs.getString("anim_porte_animal"));
+            objeto.setCliente(new NCliente().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
+            objeto.setEspecie(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
             listaEspecie.add(objeto);
         }
 

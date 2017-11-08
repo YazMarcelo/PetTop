@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import negocio.NAnimal;
 import negocio.NCliente;
 import negocio.NEspecie;
 import util.Mensagem;
@@ -373,7 +374,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)i" + jTextFieldPesquisar1.getText(), esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
@@ -381,22 +382,24 @@ public class CadastroAnimal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPesquisar1KeyTyped
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+
         if (jTableAnimal.getSelectedRow() >= 0) {
-            String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
+            try {
+                String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
 
-            //NAnimal neg = new NAnimal();
-            //Animal anim = (Animal) neg.consultar(id);
-            Animal anim = new Animal();
+                NAnimal neg = new NAnimal();
+                Animal anim = (Animal) neg.consultar(id);
 
-            this.idAlteracao = anim.getCodigo();
+                this.idAlteracao = anim.getCodigo();
 
-            jTextFieldRGA.setText(anim.getRga());
-            jTextFieldNome.setText(anim.getNome());
-            jTextFieldRaca.setText(anim.getRaca());
+                jTextFieldRGA.setText(anim.getRga());
+                jTextFieldNome.setText(anim.getNome());
+                jTextFieldRaca.setText(anim.getRaca());
 
-            jComboBoxPorte.setSelectedItem(anim.getPorteDoAnimal());
-            jComboBoxEspecie.setSelectedItem(anim.getEspecie());
-
+                jComboBoxPorte.setSelectedItem(anim.getPorteDoAnimal());
+                jComboBoxEspecie.setSelectedItem(anim.getEspecie());
+            } catch (Exception e) {
+            }
         } else {
             msg.msg12();
         }
@@ -411,8 +414,8 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
                     String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
 
-                    //NAnimal neg = new NAnimal();
-                    //neg.excluir(id);
+                    NAnimal neg = new NAnimal();
+                    neg.excluir(id);
                     model.removeRow(jTableAnimal.getSelectedRow());
                     jTableAnimal.setModel(model);
 
@@ -424,36 +427,13 @@ public class CadastroAnimal extends javax.swing.JFrame {
         } else {
             msg.msg12();
         }
-
-//
-//        if (jTableEspecie.getSelectedRow() >= 0) {
-//            int resposta = msg.msg03();
-//            if (resposta == JOptionPane.YES_OPTION) {
-//                try {
-//
-//                    String id = (String) jTableEspecie.getValueAt(jTableEspecie.getSelectedRow(), 0);
-//
-//                    NEspecie neg = new NEspecie();
-//                    neg.excluir(id);
-//
-//                    model.removeRow(jTableEspecie.getSelectedRow());
-//                    jTableEspecie.setModel(model);
-//
-//                    msg.msg05();
-//                } catch (Exception ex) {
-//                    Logger.getLogger(TelaConsultaEspecie.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        } else {
-//            msg.msg12();
-//        }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         try {
 
             Animal anim = new Animal();
-            //NAnimal neg = new NAnimal();
+            NAnimal neg = new NAnimal();
 
             anim.setCodigo(idAlteracao);
             anim.setNome(jTextFieldNome.getText());
@@ -462,16 +442,13 @@ public class CadastroAnimal extends javax.swing.JFrame {
             anim.setPorteDoAnimal(jComboBoxPorte.getSelectedItem().toString());
             anim.setCliente(new NCliente().consultar(idCliente));
             anim.setEspecie((Especie) jComboBoxEspecie.getSelectedItem());
-            //neg.salvar(anim);
+            neg.salvar(anim);
 
-            if (idAlteracao > 0) {
-                //aux.atualizar();
-            } else {
-                //limparCampos();
-            }
+            atualizar();
+            limparCampos();
 
         } catch (Exception ex) {
-            Logger.getLogger(CadastroEspecie.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CadastroAnimal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -547,6 +524,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
 
         jLabelCliente.setText(clie.getNome());
         jLabelCliente.setAlignmentX(595 - (clie.getNome().length() / 2));
+        atualizar();
     }
 
     public void adicionandoDadosComboBox() {
@@ -562,5 +540,36 @@ public class CadastroAnimal extends javax.swing.JFrame {
         } catch (Exception ex) {
 
         }
+    }
+    
+    public void atualizar(){
+                try {
+            ArrayList<Object> listaDeAnimaiss;
+            NAnimal neg = new NAnimal();
+            listaDeAnimaiss = neg.listarPorCliente(idCliente);
+            model = (DefaultTableModel) jTableAnimal.getModel();
+
+            model.setNumRows(0);
+            for (int pos = 0; pos < listaDeAnimaiss.size(); pos++) {
+                String[] saida = new String[6];
+                Animal aux = (Animal) listaDeAnimaiss.get(pos);
+                saida[0] = String.valueOf(aux.getCodigo());
+                saida[1] = aux.getRga();
+                saida[2] = aux.getNome();
+                saida[3] = aux.getRaca();
+                saida[4] = aux.getPorteDoAnimal();
+                saida[5] = (aux.getEspecie().getDescricao());
+                model.addRow(saida);
+            }
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(this, erro.getMessage());
+        }
+    }
+
+    private void limparCampos() {
+        jTextFieldRGA.setText("");
+        jTextFieldRaca.setText("");
+        jTextFieldNome.setText("");
+        jComboBoxPorte.setSelectedItem("Grande");
     }
 }
