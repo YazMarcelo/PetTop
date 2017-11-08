@@ -16,6 +16,7 @@ import apresentacao.Consulta.TelaConsultaCliente;
 import apresentacao.Consulta.TelaConsultaEspecie;
 import apresentacao.Consulta.TelaConsultaProduto;
 import apresentacao.Consulta.TelaConsultaServico;
+import apresentacao.Consulta.TelaPedido;
 import java.awt.Color;
 import static javax.management.Query.lt;
 import static javax.swing.GroupLayout.Alignment.CENTER;
@@ -33,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     TelaConsultaCliente tcc = new TelaConsultaCliente();
     TelaConsultaProduto tcp = new TelaConsultaProduto();
     TelaConsultaServico tcs = new TelaConsultaServico();
+    TelaPedido tp = new TelaPedido();
     boolean aberta;
     
     /**
@@ -288,16 +290,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelSairMouseClicked
 
     private void jButtonPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPedidoActionPerformed
-//       telaLocar.setLocation(182, 36);
-//       /*this.*/ this.add(telaLocar);
-//        telaLocar.atualizarTableCliente();
-//        telaLocar.show();
-//        telaCliente.dispose();
-//        telaMarca.dispose();
-//        telaModelo.dispose();
-//        telaVeiculo.dispose();
-//        telaDevolucao.dispose();
-//        tcd.dispose();
+        tp.setLocation(182, 36);
+        this.add(tp);
+        tp.show();
+        
         jLabelBemVindo.setText("");
     }//GEN-LAST:event_jButtonPedidoActionPerformed
 
