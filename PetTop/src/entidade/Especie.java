@@ -30,5 +30,8 @@ public class Especie {
         this.descricao = descricao;
     }
 
-
+    @Override
+    public String toString() {
+        return this.getDescricao();
+    }
 }
