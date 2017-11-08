@@ -39,6 +39,10 @@ public class Servico {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    public void setCodigo(String idAlteracao) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

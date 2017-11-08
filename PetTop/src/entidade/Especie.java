@@ -10,8 +10,9 @@ package entidade;
  * @author aluno
  */
 public class Especie {
+
     private int codigo = 0;
-    private String descricao="";
+    private String descricao = "";
 
     public int getCodigo() {
         return codigo;
@@ -28,6 +29,9 @@ public class Especie {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return this.getDescricao();
+    }
 }

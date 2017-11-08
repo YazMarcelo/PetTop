@@ -111,7 +111,7 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Codigo", "Descricao", "Valor", "Saldo Estoque"
+                "Codigo", "Descricao", "Valor R$", "Saldo Estoque"
             }
         ));
         jScrollPane1.setViewportView(jTableProduto);
@@ -309,7 +309,7 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)" + jTextFieldPesquisar1.getText(), esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
@@ -345,8 +345,9 @@ public class TelaConsultaProduto extends javax.swing.JInternalFrame {
                 Produto aux = (Produto) listaDeProdutos.get(pos);
                 saida[0] = String.valueOf(aux.getCodigo());
                 saida[1] = aux.getDescricao();
-                saida[2] = String.valueOf(aux.getSaldoEstoque());
-                saida[3] = String.valueOf(aux.getValor());
+                saida[2] = String.valueOf(aux.getValor());
+                saida[3] = String.valueOf(aux.getSaldoEstoque());
+                
                 model.addRow(saida);
             }
         } catch (Exception erro) {

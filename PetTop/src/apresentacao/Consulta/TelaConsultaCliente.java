@@ -5,6 +5,7 @@
  */
 package apresentacao.Consulta;
 
+import apresentacao.Cadastro.CadastroAnimal;
 import apresentacao.Cadastro.CadastroCliente;
 import apresentacao.Cadastro.CadastroEspecie;
 import entidade.Cliente;
@@ -14,7 +15,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,18 +28,21 @@ import javax.swing.table.TableRowSorter;
 import negocio.NCliente;
 import persistencia.ClienteDAO;
 import util.Mensagem;
+import util.Utilitarios;
 
 /**
  *
  * @author aluno
  */
 public class TelaConsultaCliente extends javax.swing.JInternalFrame {
+
     DefaultTableModel model = null;
     TableRowSorter trs;
     int esc;
     CadastroCliente tcc;
+    CadastroAnimal tca;
     Mensagem msg = new Mensagem();
-    
+
     /**
      * Creates new form TelaConsultaVeículo
      */
@@ -66,6 +73,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
         jTextFieldPesquisar1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
 
         setClosable(true);
         setAlignmentX(100.0F);
@@ -192,7 +200,17 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtro");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Nome", "CNH", "Email" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Código", "Nome", "CPF", "Telefone", "Data Nascimento" }));
+
+        jButton4.setBackground(new java.awt.Color(0, 0, 0));
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Animal");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -214,6 +232,8 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
                             .addComponent(jButton3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(56, Short.MAX_VALUE))
@@ -222,7 +242,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -231,7 +251,8 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton5)
-                    .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
@@ -258,7 +279,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    atualizar();
+        atualizar();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -286,7 +307,7 @@ public class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-if (jTableCliente.getSelectedRow() >= 0) {
+        if (jTableCliente.getSelectedRow() >= 0) {
             try {
                 tcc = new CadastroCliente();
                 tcc.atualizarAposSalvar(this);
@@ -316,25 +337,59 @@ if (jTableCliente.getSelectedRow() >= 0) {
 
     private void jTextFieldPesquisar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisar1KeyTyped
         jTextFieldPesquisar1.setForeground(new java.awt.Color(0, 0, 0));
-        if(jComboBox1.getSelectedItem().equals("Nome")|| jComboBox1.getSelectedItem().equals("Selecione...")) esc = 0; 
-        if(jComboBox1.getSelectedItem().equals("CNH")) esc = 1; 
-        if(jComboBox1.getSelectedItem().equals("Email")) esc = 2; 
+        
+                String selecionado = (String) jComboBox1.getSelectedItem();
+
+        switch (selecionado) {
+            case "Código":
+                esc = 0;
+                break;
+            case "Nome":
+                esc = 1;
+                break;
+            case "CPF":
+                esc = 2;
+                break;
+            case "Telefone":
+                esc = 3;
+                break;
+            case "Data Nascimento":
+                esc = 4;
+                break;
+        }
         jTextFieldPesquisar1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
 
-                trs.setRowFilter(RowFilter.regexFilter("(?)"+jTextFieldPesquisar1.getText(),esc));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + jTextFieldPesquisar1.getText(), esc));
             }
         });
         trs = new TableRowSorter(model);
         jTableCliente.setRowSorter(trs);
     }//GEN-LAST:event_jTextFieldPesquisar1KeyTyped
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (jTableCliente.getSelectedRow() >= 0) {
+            tca = new CadastroAnimal();
+            try {
+                tca.settarCliente((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
+            } catch (Exception ex) {
+                Logger.getLogger(TelaConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tca.setVisible(true);
+        } else {
+            msg.msg12();
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -348,6 +403,7 @@ if (jTableCliente.getSelectedRow() >= 0) {
 
     public void atualizar() {
         try {
+
             ArrayList<Object> listaDeClientes;
             NCliente neg = new NCliente();
             listaDeClientes = neg.listar();
@@ -361,19 +417,20 @@ if (jTableCliente.getSelectedRow() >= 0) {
                 saida[1] = aux.getNome();
                 saida[2] = aux.getCpf();
                 saida[3] = aux.getTelefone();
-                saida[4] = String.valueOf(aux.getDataNascimento());
+                saida[4] = Utilitarios.dateBRFormat(String.valueOf(aux.getDataNascimento()));
                 model.addRow(saida);
             }
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(this, erro.getMessage());
         }
     }
-    public void atualizaAposFechar(){
-    tcc.addWindowListener(new WindowAdapter() {
-        public void windowClosing(WindowEvent evt) {
-            atualizar();
-        }
-    });  
-}
+
+    public void atualizaAposFechar() {
+        tcc.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                atualizar();
+            }
+        });
+    }
 
 }
