@@ -188,23 +188,24 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
     }
     
     public ArrayList<Object> listarPorCliente(String idCliente) throws Exception {
+        ArrayList<Object> listaAnimal = new ArrayList<>();
         
-        ArrayList<Object> listaEspecie = new ArrayList<>();
-
-        String sql = "select * from animal where anim_clie_id = ? order by anim_id";
+        String sql = "select * from animal where anim_clie_id = ? orde by anim_id;";
 
         Connection cnn = util.Conexao.getConexao();
-         PreparedStatement prd = cnn.prepareStatement(sql);
+
+        //Cria o procedimento armazenado a partir da conexão
+        //e string sql
+        PreparedStatement prd = cnn.prepareStatement(sql);
 
         //Seta os valores para o procedimento
         prd.setInt(1, Integer.parseInt(idCliente));
-        
-        ResultSet rs = prd.executeQuery(sql);
 
-        Animal objeto;
+        ResultSet rs = prd.executeQuery();
+
 
         while (rs.next()) {
-            objeto = new Animal();
+        Animal objeto = new Animal();
             objeto.setCodigo(rs.getInt("anim_id"));
             objeto.setNome(rs.getString("anim_nome"));
             objeto.setRga(rs.getString("anim_rga"));
@@ -212,12 +213,15 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
             objeto.setPorteDoAnimal(rs.getString("anim_porte_animal"));
             objeto.setCliente(new NCliente().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
             objeto.setEspecie(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
-            listaEspecie.add(objeto);
+            listaAnimal.add(objeto);
         }
 
-        rs.close();
+        prd.execute();
+
+        prd.close();
         cnn.close();
 
-        return listaEspecie;
+        return listaAnimal;  
+        
     }
 }
