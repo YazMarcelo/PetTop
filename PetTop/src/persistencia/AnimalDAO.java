@@ -6,6 +6,8 @@
 package persistencia;
 
 import entidade.Animal;
+import entidade.Cliente;
+import entidade.Especie;
 import interfaces.CRUD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -136,6 +138,13 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
         ResultSet rs = prd.executeQuery();
 
         Animal objeto = new Animal();
+        Cliente objClie = new Cliente();
+        Especie objEspe = new Especie();
+        NCliente NClie = new NCliente();
+        NEspecie NEspe = new NEspecie();
+        
+        int idClie;
+        int idEspe;
 
         if (rs.next()) {
             objeto.setCodigo(rs.getInt("anim_id"));
@@ -143,9 +152,14 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
             objeto.setRga(rs.getString("anim_rga"));
             objeto.setRaca(rs.getString("anim_raca"));
             objeto.setPorteDoAnimal(rs.getString("anim_porte_animal"));
-            objeto.setCliente(new NCliente().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
-            objeto.setEspecie(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
-
+            idClie = rs.getInt("anim_clie_id");
+            idEspe = rs.getInt("anim_espe_id");
+            
+            objClie = NClie.consultar(String.valueOf(idClie));
+            objEspe = NEspe.consultar(String.valueOf(idEspe));
+            
+            objeto.setCliente(objClie);
+            objeto.setEspecie(objEspe);
         }
 
         prd.execute();
@@ -153,7 +167,7 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
         prd.close();
         cnn.close();
 
-        return objeto;    
+        return objeto; 
 }
 
    @Override

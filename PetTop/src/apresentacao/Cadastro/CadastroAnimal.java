@@ -384,7 +384,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
                 String id = (String) jTableAnimal.getValueAt(jTableAnimal.getSelectedRow(), 0);
 
                 NAnimal neg = new NAnimal();
-                Animal anim = (Animal) neg.consultar(id);
+                Animal anim = neg.consultar(id);
 
                 this.idAlteracao = anim.getCodigo();
 
@@ -395,6 +395,7 @@ public class CadastroAnimal extends javax.swing.JFrame {
                 jComboBoxPorte.setSelectedItem(anim.getPorteDoAnimal());
                 jComboBoxEspecie.setSelectedItem(anim.getEspecie());
             } catch (Exception e) {
+                Logger.getLogger(CadastroAnimal.class.getName()).log(Level.SEVERE, null, e);
             }
         } else {
             msg.msg12();
