@@ -190,8 +190,8 @@ public class AnimalDAO implements CRUD {//aqui dava arro pois pedia pra implemen
             objeto.setRga(rs.getString("anim_rga"));
             objeto.setRaca(rs.getString("anim_raca"));
             objeto.setPorteDoAnimal(rs.getString("anim_porte_animal"));
-            objeto.setCliente(new NCliente().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
-            objeto.setEspecie(new NEspecie().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
+            objeto.setCliente((Cliente) new ClienteDAO().consultar(String.valueOf(rs.getInt("anim_clie_id"))));
+            objeto.setEspecie((Especie) new EspecieDAO().consultar(String.valueOf(rs.getInt("anim_espe_id"))));
             listaEspecie.add(objeto);
         }
 

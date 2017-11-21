@@ -29,14 +29,10 @@ public class EspecieDAO implements CRUD{
 
         PreparedStatement prd = cnn.prepareStatement(sql);
 
-        //Seta os valores para o procedimento
         prd.setString(1, objEspecie.getDescricao());
 
-
-        //Executa o comando no banco de dados
         prd.execute();
 
-        //cria o sql para recuperar o codigo gerado
         String sql2 = "select currval('especie_espe_id_seq') as espe_id";
 
         Statement stm = cnn.createStatement();
@@ -54,13 +50,10 @@ public class EspecieDAO implements CRUD{
 
     @Override
     public void excluir(String id) throws Exception {
-        //Cria a instrução SQL para a inserção no banco
         String sql = "delete from especie where espe_id = ?;";
 
         Connection cnn = util.Conexao.getConexao();
 
-        //Cria o procedimento armazenado a partir da conexão
-        //e string sql
         PreparedStatement prd = cnn.prepareStatement(sql);
 
         prd.setInt(1, Integer.parseInt(id));
